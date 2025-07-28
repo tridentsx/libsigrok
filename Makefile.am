@@ -520,6 +520,12 @@ src_libdrivers_la_SOURCES += \
 	src/hardware/korad-kaxxxxp/protocol.c \
 	src/hardware/korad-kaxxxxp/api.c
 endif
+if HW_LABJACK_U12
+src_libdrivers_la_SOURCES += \
+	src/hardware/labjack-u12/protocol.h \
+	src/hardware/labjack-u12/protocol.c \
+	src/hardware/labjack-u12/api.c
+endif
 if HW_LASCAR_EL_USB
 src_libdrivers_la_SOURCES += \
 	src/hardware/lascar-el-usb/protocol.h \
