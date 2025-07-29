@@ -20,6 +20,7 @@
 #include <config.h>
 #include <string.h>
 #include <math.h>
+#include <unistd.h>
 #include <libusb.h>
 #include "protocol.h"
 
@@ -630,38 +631,65 @@ SR_PRIV int labjack_u12_unbind_hid_driver(int bus, int address)
 	FILE *unbind_file;
 	int ret = SR_OK;
 
-	/* Try to find and unbind the HID driver */
-	/* Format: bus-port:config.interface */
-	snprintf(device_path, sizeof(device_path), "%d-%d:1.0", bus, address);
-	
+	sr_info("Attempting to unbind HID driver from LabJack U12 (bus %d, address %d)", bus, address);
+
+	/* Try multiple interface path formats for different systems */
+	const char *path_formats[] = {
+		"%d-%d:1.0",     /* Standard format */
+		"1-%d:1.0",      /* WSL2 format */
+		"%d-1:1.0",      /* Alternative format */
+		"1-1:1.0"        /* Fixed format for single device */
+	};
+
 	/* Try to unbind from usbhid driver */
 	snprintf(unbind_path, sizeof(unbind_path), "/sys/bus/usb/drivers/usbhid/unbind");
-	unbind_file = fopen(unbind_path, "w");
-	if (unbind_file) {
-		if (fprintf(unbind_file, "%s\n", device_path) > 0) {
-			sr_info("Successfully unbound HID driver from %s", device_path);
-		} else {
-			sr_spew("Failed to write to usbhid unbind (device may not be bound)");
+	
+	for (size_t i = 0; i < sizeof(path_formats) / sizeof(path_formats[0]); i++) {
+		snprintf(device_path, sizeof(device_path), path_formats[i], bus, address);
+		
+		unbind_file = fopen(unbind_path, "w");
+		if (unbind_file) {
+			if (fprintf(unbind_file, "%s\n", device_path) > 0) {
+				sr_info("Successfully unbound HID driver using path %s", device_path);
+				fclose(unbind_file);
+				break;
+			}
+			fclose(unbind_file);
 		}
-		fclose(unbind_file);
-	} else {
-		sr_spew("Cannot access usbhid unbind path (may need root or device not bound)");
+		sr_spew("Failed to unbind using path %s", device_path);
 	}
 
-	/* Also try to unbind from hid-generic driver */
-	snprintf(unbind_path, sizeof(unbind_path), "/sys/bus/hid/drivers/hid-generic/unbind");
-	unbind_file = fopen(unbind_path, "w");
-	if (unbind_file) {
-		/* HID devices have different naming format */
-		snprintf(device_path, sizeof(device_path), "0003:0CD5:0001.%04d", address);
-		if (fprintf(unbind_file, "%s\n", device_path) > 0) {
-			sr_info("Successfully unbound hid-generic driver from %s", device_path);
-		} else {
-			sr_spew("Failed to write to hid-generic unbind");
+	/* Try to unbind from hid-generic driver by searching for the device */
+	if (access("/sys/bus/hid/devices", F_OK) == 0) {
+		char cmd[512];
+		snprintf(cmd, sizeof(cmd), 
+		         "find /sys/bus/hid/devices -name '*' -exec grep -l 'HID_ID=0003:00000CD5:00000001' {}/uevent \\; 2>/dev/null | head -1");
+		
+		FILE *fp = popen(cmd, "r");
+		if (fp) {
+			char hid_path[256];
+			if (fgets(hid_path, sizeof(hid_path), fp)) {
+				/* Extract device name from path */
+				char *last_slash = strrchr(hid_path, '/');
+				if (last_slash) {
+					*last_slash = '\0';
+					last_slash = strrchr(hid_path, '/');
+					if (last_slash) {
+						char *hid_device = last_slash + 1;
+						
+						snprintf(unbind_path, sizeof(unbind_path), "/sys/bus/hid/drivers/hid-generic/unbind");
+						unbind_file = fopen(unbind_path, "w");
+						if (unbind_file) {
+							if (fprintf(unbind_file, "%s\n", hid_device) > 0) {
+								sr_info("Successfully unbound hid-generic driver from %s", hid_device);
+							}
+							fclose(unbind_file);
+						}
+					}
+				}
+			}
+			pclose(fp);
 		}
-		fclose(unbind_file);
-	} else {
-		sr_spew("Cannot access hid-generic unbind path");
 	}
 
 	return ret;
