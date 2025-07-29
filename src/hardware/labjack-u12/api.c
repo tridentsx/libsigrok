@@ -221,6 +221,14 @@ static int dev_open(struct sr_dev_inst *sdi)
 		return SR_ERR;
 	}
 
+	/* Detach kernel driver if it's attached */
+	if (libusb_kernel_driver_active(usb->devhdl, LABJACK_USB_INTERFACE) == 1) {
+		sr_info("Detaching kernel driver from LabJack U12");
+		if (libusb_detach_kernel_driver(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
+			sr_warn("Failed to detach kernel driver, continuing anyway");
+		}
+	}
+
 	/* Claim the interface */
 	if (libusb_claim_interface(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
 		sr_err("Failed to claim USB interface.");
@@ -265,6 +273,14 @@ static int dev_close(struct sr_dev_inst *sdi)
 	/* Release USB interface and close device */
 	if (usb->devhdl) {
 		libusb_release_interface(usb->devhdl, LABJACK_USB_INTERFACE);
+		
+		/* Reattach kernel driver if it was detached */
+		if (libusb_kernel_driver_active(usb->devhdl, LABJACK_USB_INTERFACE) == 0) {
+			if (libusb_attach_kernel_driver(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
+				sr_spew("Failed to reattach kernel driver");
+			}
+		}
+		
 		libusb_close(usb->devhdl);
 		usb->devhdl = NULL;
 	}
