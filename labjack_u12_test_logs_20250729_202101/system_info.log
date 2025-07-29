@@ -1,0 +1,108 @@
+=== SYSTEM INFO ===
+Date: Tue Jul 29 20:21:01 CEST 2025
+Hostname: BOOK-2VQE13ANDF
+Kernel: Linux BOOK-2VQE13ANDF 5.15.167.4-microsoft-standard-WSL2 #1 SMP Tue Nov 5 00:21:55 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+Distribution: Description:	Ubuntu 24.04.1 LTS
+USB Utils Version: lsusb (usbutils) 017
+
+=== USB DEVICES ===
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 004: ID 0cd5:0001 LabJack Corporation Labjack U12
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+=== LABJACK U12 USB DETAILS ===
+
+Bus 001 Device 004: ID 0cd5:0001 LabJack Corporation Labjack U12
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass            0 [unknown]
+  bDeviceSubClass         0 [unknown]
+  bDeviceProtocol         0 
+  bMaxPacketSize0         8
+  idVendor           0x0cd5 LabJack Corporation
+  idProduct          0x0001 Labjack U12
+  bcdDevice            5.f6
+  iManufacturer           1 LabJack
+  iProduct                2 Labjack U12
+  iSerial                 0 
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0029
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0 
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0 
+      iInterface              0 
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               1.10
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      75
+          Report Descriptors: 
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0008  1x 8 bytes
+        bInterval              10
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0008  1x 8 bytes
+        bInterval              10
+
+=== USB DEVICE TREE ===
+
+=== HID DEVICES ===
+crw------- 1 root root 242, 0 Jul 29 19:46 /dev/hidraw0
+
+=== DMESG LABJACK ENTRIES ===
+[    2.249933] FS-Cache: N-cookie d=000000001420bf69{9P.session} n=00000000e8b011ef
+[    2.252844] FS-Cache: O-cookie d=000000001420bf69{9P.session} n=000000005dff91c5
+[    2.253675] FS-Cache: N-cookie d=000000001420bf69{9P.session} n=00000000fc6f5bb3
+[914843.192829] RSP: 002b:00007ffd0909dc80 EFLAGS: 00010246
+[914843.193047] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+[917543.390304] usb 1-1: New USB device found, idVendor=0cd5, idProduct=0001, bcdDevice= 5.f6
+[917543.390312] usb 1-1: Product: Labjack U12
+[917543.390314] usb 1-1: Manufacturer: LabJack
+[917543.400466] input: LabJack Labjack U12 as /devices/platform/vhci_hcd.0/usb1/1-1/1-1:1.0/0003:0CD5:0001.0001/input/input0
+[917543.400732] hid-generic 0003:0CD5:0001.0001: input,hidraw0: USB HID v1.10 Device [LabJack Labjack U12] on usb-vhci_hcd.0-1/input0
+[967296.218477] usb 1-1: New USB device found, idVendor=0cd5, idProduct=0001, bcdDevice= 5.f6
+[967296.218483] usb 1-1: Product: Labjack U12
+[967296.218513] usb 1-1: Manufacturer: LabJack
+[967296.227255] input: LabJack Labjack U12 as /devices/platform/vhci_hcd.0/usb1/1-1/1-1:1.0/0003:0CD5:0001.0002/input/input1
+[967296.227745] hid-generic 0003:0CD5:0001.0002: input,hidraw0: USB HID v1.10 Device [LabJack Labjack U12] on usb-vhci_hcd.0-1/input0
+[979712.553878] usb 1-1: New USB device found, idVendor=0cd5, idProduct=0001, bcdDevice= 5.f6
+[979712.553924] usb 1-1: Product: Labjack U12
+[979712.553925] usb 1-1: Manufacturer: LabJack
+[979712.564358] input: LabJack Labjack U12 as /devices/platform/vhci_hcd.0/usb1/1-1/1-1:1.0/0003:0CD5:0001.0003/input/input2
+[979712.564512] hid-generic 0003:0CD5:0001.0003: input,hidraw0: USB HID v1.10 Device [LabJack Labjack U12] on usb-vhci_hcd.0-1/input0
+

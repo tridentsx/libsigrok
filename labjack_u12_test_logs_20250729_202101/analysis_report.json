@@ -1,0 +1,462 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "passed": 7,
+    "failed": 17,
+    "success_rate": "28.0%",
+    "critical_issues": 2
+  },
+  "system_info": {
+    "kernel": "Linux BOOK-2VQE13ANDF 5.15.167.4-microsoft-standard-WSL2 #1 SMP Tue Nov 5 00:21:55 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux",
+    "distribution": "Description:\tUbuntu 24.04.1 LTS",
+    "usb_devices": 4,
+    "labjack_found": true,
+    "hid_devices": 1,
+    "dmesg_entries": 59
+  },
+  "test_results": {
+    "other": {
+      "total": 16,
+      "passed": 2,
+      "failed": 14
+    },
+    "set": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "driver": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "list": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1
+    },
+    "invalid": {
+      "total": 1,
+      "passed": 0,
+      "failed": 0
+    },
+    "ai": {
+      "total": 2,
+      "passed": 0,
+      "failed": 2
+    }
+  },
+  "error_analysis": {
+    "USB Error: ACCESS": 19,
+    "Operation Failure: open": 19,
+    "LibSigrok Error: labjack-u12": 1,
+    "Timeout: timeout": 1
+  },
+  "performance": {
+    "22_timing_single_sample": {
+      "real_time": "0m0.007s",
+      "user_time": "0m0.000s",
+      "sys_time": "0m0.004s"
+    },
+    "23_timing_multiple_channels": {
+      "real_time": "0m0.007s",
+      "user_time": "0m0.000s",
+      "sys_time": "0m0.004s"
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Critical Failures",
+      "issue": "17 tests failed unexpectedly",
+      "tests": [
+        "19_rapid_start_stop",
+        "17_all_channel_types",
+        "16_analog_digital_mixed",
+        "15_counter_channel",
+        "03_list_device_options",
+        "13_digital_d_channels",
+        "24_device_info",
+        "22_timing_single_sample",
+        "08_ai_single_channel",
+        "12_digital_io_channels",
+        "11_ai_differential_mode",
+        "14_mixed_digital_channels",
+        "18_long_acquisition",
+        "09_ai_multiple_channels",
+        "25_continuous_mode",
+        "23_timing_multiple_channels",
+        "10_ai_all_channels"
+      ],
+      "action": "Review failed test logs for specific error messages"
+    },
+    {
+      "priority": "HIGH",
+      "category": "USB Communication",
+      "issue": "USB communication errors detected",
+      "patterns": [
+        "USB Error: ACCESS"
+      ],
+      "action": "Check USB permissions, HID driver conflicts, and device connectivity"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "HID Driver Conflict",
+      "issue": "1 HID devices detected",
+      "action": "May need to unbind HID driver from LabJack U12"
+    }
+  ],
+  "detailed_failures": {
+    "19_rapid_start_stop": {
+      "errors": [
+        "sr: [00:00.002858] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002869] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "sr: [00:00.003298] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.003303] labjack-u12: Failed to find and open LabJack U12 device."
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000054] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000068] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000101] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000110] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000115] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000118] backend: Firmware search paths:",
+        "sr: [00:00.000139] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000143] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000146] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000149] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "17_all_channel_types": {
+      "errors": [
+        "sr: [00:00.002616] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002626] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000028] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000042] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000075] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000083] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000088] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000092] backend: Firmware search paths:",
+        "sr: [00:00.000110] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000114] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000117] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000121] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "16_analog_digital_mixed": {
+      "errors": [
+        "sr: [00:00.008895] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.008914] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000061] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000076] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000109] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000117] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000122] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000125] backend: Firmware search paths:",
+        "sr: [00:00.000147] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000150] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000153] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000168] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "15_counter_channel": {
+      "errors": [
+        "sr: [00:00.002796] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002807] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000041] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000052] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000079] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000085] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000090] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000093] backend: Firmware search paths:",
+        "sr: [00:00.000114] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000117] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000121] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000124] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "03_list_device_options": {
+      "errors": [
+        "sr: labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device."
+      ]
+    },
+    "13_digital_d_channels": {
+      "errors": [
+        "sr: [00:00.002275] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002283] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000038] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000049] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000078] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000084] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000088] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000091] backend: Firmware search paths:",
+        "sr: [00:00.000108] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000111] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000114] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000117] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "24_device_info": {
+      "errors": [
+        "sr: [00:00.061405] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.061439] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000048] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000064] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000099] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000106] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000112] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000115] backend: Firmware search paths:",
+        "sr: [00:00.000139] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000143] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000146] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000149] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "22_timing_single_sample": {
+      "errors": [
+        "sr: [00:00.003192] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.003205] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000051] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000065] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000099] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000108] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000113] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000117] backend: Firmware search paths:",
+        "sr: [00:00.000192] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000197] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000200] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000204] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "08_ai_single_channel": {
+      "errors": [
+        "sr: [00:00.002262] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002271] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000032] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000043] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000069] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000076] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000081] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000084] backend: Firmware search paths:",
+        "sr: [00:00.000104] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000108] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000112] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000115] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "12_digital_io_channels": {
+      "errors": [
+        "sr: [00:00.002107] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002114] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000038] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000049] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000079] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000085] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000089] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000093] backend: Firmware search paths:",
+        "sr: [00:00.000109] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000113] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000116] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000119] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "11_ai_differential_mode": {
+      "errors": [
+        "sr: [00:00.002112] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002121] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000041] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000052] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000082] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000088] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000092] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000096] backend: Firmware search paths:",
+        "sr: [00:00.000116] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000119] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000122] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000125] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "14_mixed_digital_channels": {
+      "errors": [
+        "sr: [00:00.002325] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002333] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000036] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000049] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000077] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000084] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000088] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000091] backend: Firmware search paths:",
+        "sr: [00:00.000111] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000115] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000118] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000121] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "18_long_acquisition": {
+      "errors": [
+        "sr: [00:00.003973] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.003977] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000052] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000067] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000101] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000108] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000113] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000116] backend: Firmware search paths:",
+        "sr: [00:00.000136] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000140] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000144] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000147] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "09_ai_multiple_channels": {
+      "errors": [
+        "sr: [00:00.002440] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.002447] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000046] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000058] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000086] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000093] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000097] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000100] backend: Firmware search paths:",
+        "sr: [00:00.000121] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000124] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000127] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000130] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "25_continuous_mode": {
+      "errors": [
+        "sr: [00:00.040013] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.040022] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "Command: timeout 10s sigrok-cli -d labjack-u12 --channels AI0 --continuous -l 5",
+        "sr: [00:00.000052] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000065] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000098] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000105] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000110] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000113] backend: Firmware search paths:",
+        "sr: [00:00.000133] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000137] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000140] backend:  - /usr/local/share/sigrok-firmware"
+      ]
+    },
+    "23_timing_multiple_channels": {
+      "errors": [
+        "sr: [00:00.003270] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.003281] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000063] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000079] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000114] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000122] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000127] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000131] backend: Firmware search paths:",
+        "sr: [00:00.000157] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000161] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000164] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000167] backend:  - /usr/share/sigrok-firmware"
+      ]
+    },
+    "10_ai_all_channels": {
+      "errors": [
+        "sr: [00:00.003195] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.",
+        "sr: [00:00.003198] labjack-u12: Failed to find and open LabJack U12 device.",
+        "Failed to open device.",
+        "RESULT: FAIL"
+      ],
+      "warnings": [],
+      "key_lines": [
+        "sr: [00:00.000041] log: libsigrok loglevel set to 5.",
+        "sr: [00:00.000052] backend: libsigrok 0.6.0-git-a936009a/4:0:0.",
+        "sr: [00:00.000080] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.",
+        "sr: [00:00.000086] backend: Host: x86_64-pc-linux-gnu, little-endian.",
+        "sr: [00:00.000090] backend: SCPI backends: TCP, RPC, serial, USBTMC.",
+        "sr: [00:00.000094] backend: Firmware search paths:",
+        "sr: [00:00.000111] backend:  - /home/tridentsx/.local/share/sigrok-firmware",
+        "sr: [00:00.000114] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000117] backend:  - /usr/local/share/sigrok-firmware",
+        "sr: [00:00.000120] backend:  - /usr/share/sigrok-firmware"
+      ]
+    }
+  }
+}

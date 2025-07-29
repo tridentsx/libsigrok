@@ -218,6 +218,10 @@ static int dev_open(struct sr_dev_inst *sdi)
 			break;
 		}
 
+		/* Try to unbind HID driver before claiming interface */
+		labjack_u12_unbind_hid_driver(libusb_get_bus_number(devlist[i]), 
+		                              libusb_get_device_address(devlist[i]));
+
 		usb->devhdl = hdl;
 		break;
 	}
@@ -229,28 +233,52 @@ static int dev_open(struct sr_dev_inst *sdi)
 		return SR_ERR;
 	}
 
-	/* Detach kernel driver if it's attached */
-	if (libusb_kernel_driver_active(usb->devhdl, LABJACK_USB_INTERFACE) == 1) {
-		sr_info("Detaching kernel driver from LabJack U12");
-		if (libusb_detach_kernel_driver(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
-			sr_warn("Failed to detach kernel driver, continuing anyway");
+	/* Try multiple approaches to detach kernel drivers */
+	
+	/* Method 1: Detach from interface 0 (HID interface) */
+	if (libusb_kernel_driver_active(usb->devhdl, 0) == 1) {
+		sr_info("Detaching HID driver from interface 0");
+		ret = libusb_detach_kernel_driver(usb->devhdl, 0);
+		if (ret == LIBUSB_SUCCESS) {
+			sr_info("Successfully detached HID driver");
+		} else {
+			sr_warn("Failed to detach HID driver: %s", libusb_error_name(ret));
 		}
 	}
 
-	/* Also try to detach from interface 0 (HID interface) */
-	if (libusb_kernel_driver_active(usb->devhdl, 0) == 1) {
-		sr_info("Detaching HID driver from LabJack U12");
-		if (libusb_detach_kernel_driver(usb->devhdl, 0) < 0) {
-			sr_warn("Failed to detach HID driver, continuing anyway");
+	/* Method 2: Detach from our target interface */
+	if (libusb_kernel_driver_active(usb->devhdl, LABJACK_USB_INTERFACE) == 1) {
+		sr_info("Detaching kernel driver from interface %d", LABJACK_USB_INTERFACE);
+		ret = libusb_detach_kernel_driver(usb->devhdl, LABJACK_USB_INTERFACE);
+		if (ret == LIBUSB_SUCCESS) {
+			sr_info("Successfully detached kernel driver");
+		} else {
+			sr_warn("Failed to detach kernel driver: %s", libusb_error_name(ret));
 		}
 	}
+
+	/* Small delay to let the system settle */
+	g_usleep(100 * 1000); /* 100ms */
 
 	/* Claim the interface */
-	if (libusb_claim_interface(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
-		sr_err("Failed to claim USB interface.");
-		libusb_close(usb->devhdl);
-		usb->devhdl = NULL;
-		return SR_ERR;
+	ret = libusb_claim_interface(usb->devhdl, LABJACK_USB_INTERFACE);
+	if (ret < 0) {
+		sr_err("Failed to claim USB interface %d: %s", 
+		       LABJACK_USB_INTERFACE, libusb_error_name(ret));
+		
+		/* Try to claim interface 0 instead (HID interface) */
+		sr_info("Attempting to claim interface 0 instead");
+		ret = libusb_claim_interface(usb->devhdl, 0);
+		if (ret < 0) {
+			sr_err("Failed to claim interface 0: %s", libusb_error_name(ret));
+			libusb_close(usb->devhdl);
+			usb->devhdl = NULL;
+			return SR_ERR;
+		} else {
+			sr_info("Successfully claimed interface 0");
+		}
+	} else {
+		sr_info("Successfully claimed interface %d", LABJACK_USB_INTERFACE);
 	}
 
 	sdi->status = SR_ST_ACTIVE;

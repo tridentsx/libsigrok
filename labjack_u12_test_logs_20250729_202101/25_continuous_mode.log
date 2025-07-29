@@ -1,0 +1,24 @@
+Command: timeout 10s sigrok-cli -d labjack-u12 --channels AI0 --continuous -l 5
+Timestamp: Tue Jul 29 20:21:02 CEST 2025
+========================================
+sr: [00:00.000052] log: libsigrok loglevel set to 5.
+sr: [00:00.000065] backend: libsigrok 0.6.0-git-a936009a/4:0:0.
+sr: [00:00.000098] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000105] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000110] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000113] backend: Firmware search paths:
+sr: [00:00.000133] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000137] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000140] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000143] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000146] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000162] backend: Sanity-checking all drivers.
+sr: [00:00.000169] backend: Sanity-checking all input modules.
+sr: [00:00.000174] backend: Sanity-checking all output modules.
+sr: [00:00.000181] backend: Sanity-checking all transform modules.
+sr: [00:00.039978] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.040001] device: labjack-u12: Opening device instance.
+sr: [00:00.040013] labjack-u12: Failed to open device: LIBUSB_ERROR_ACCESS.
+sr: [00:00.040022] labjack-u12: Failed to find and open LabJack U12 device.
+Failed to open device.
+RESULT: FAIL

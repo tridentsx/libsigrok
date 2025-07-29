@@ -103,14 +103,18 @@ SR_PRIV int labjack_u12_usb_write(const struct sr_dev_inst *sdi,
 	struct dev_context *devc;
 	int transferred, ret;
 
-	if (!sdi || !sdi->priv || !data || length == 0)
+	if (!sdi || !sdi->priv || !data || length == 0) {
+		sr_err("Invalid parameters for USB write");
 		return SR_ERR_ARG;
+	}
 
 	devc = sdi->priv;
 	if (!devc->usb || !devc->usb->devhdl) {
 		sr_err("USB device not open or invalid");
 		return SR_ERR_DEV_CLOSED;
 	}
+
+	sr_spew("USB write: %zu bytes to endpoint 0x%02x", length, LABJACK_USB_ENDPOINT_OUT);
 
 	g_mutex_lock(&devc->usb_mutex);
 	
@@ -124,7 +128,8 @@ SR_PRIV int labjack_u12_usb_write(const struct sr_dev_inst *sdi,
 	g_mutex_unlock(&devc->usb_mutex);
 
 	if (ret != LIBUSB_SUCCESS) {
-		sr_err("USB write failed: %s", libusb_error_name(ret));
+		sr_err("USB write failed: %s (endpoint 0x%02x, %zu bytes)", 
+		       libusb_error_name(ret), LABJACK_USB_ENDPOINT_OUT, length);
 		return SR_ERR;
 	}
 
@@ -133,6 +138,7 @@ SR_PRIV int labjack_u12_usb_write(const struct sr_dev_inst *sdi,
 		return SR_ERR;
 	}
 
+	sr_spew("USB write successful: %d bytes", transferred);
 	return SR_OK;
 }
 
@@ -150,14 +156,18 @@ SR_PRIV int labjack_u12_usb_read(const struct sr_dev_inst *sdi,
 	struct dev_context *devc;
 	int transferred, ret;
 
-	if (!sdi || !sdi->priv || !data || length == 0)
+	if (!sdi || !sdi->priv || !data || length == 0) {
+		sr_err("Invalid parameters for USB read");
 		return SR_ERR_ARG;
+	}
 
 	devc = sdi->priv;
 	if (!devc->usb || !devc->usb->devhdl) {
 		sr_err("USB device not open or invalid");
 		return SR_ERR_DEV_CLOSED;
 	}
+
+	sr_spew("USB read: %zu bytes from endpoint 0x%02x", length, LABJACK_USB_ENDPOINT_IN);
 
 	g_mutex_lock(&devc->usb_mutex);
 	
@@ -171,7 +181,8 @@ SR_PRIV int labjack_u12_usb_read(const struct sr_dev_inst *sdi,
 	g_mutex_unlock(&devc->usb_mutex);
 
 	if (ret != LIBUSB_SUCCESS) {
-		sr_err("USB read failed: %s", libusb_error_name(ret));
+		sr_err("USB read failed: %s (endpoint 0x%02x, %zu bytes)", 
+		       libusb_error_name(ret), LABJACK_USB_ENDPOINT_IN, length);
 		return SR_ERR;
 	}
 
@@ -180,6 +191,7 @@ SR_PRIV int labjack_u12_usb_read(const struct sr_dev_inst *sdi,
 		return SR_ERR;
 	}
 
+	sr_spew("USB read successful: %d bytes", transferred);
 	return SR_OK;
 }
 
@@ -601,6 +613,58 @@ SR_PRIV int labjack_u12_bulk_io(const struct sr_dev_inst *sdi,
 	        ai_channels, response.io_state, response.d_state);
 
 	return SR_OK;
+}
+
+/**
+ * Manually unbind HID driver from LabJack U12 device.
+ * This is needed when udev rules don't work (e.g., in WSL2).
+ * 
+ * @param bus USB bus number
+ * @param address USB device address
+ * @return SR_OK on success, SR_ERR on failure
+ */
+SR_PRIV int labjack_u12_unbind_hid_driver(int bus, int address)
+{
+	char device_path[256];
+	char unbind_path[256];
+	FILE *unbind_file;
+	int ret = SR_OK;
+
+	/* Try to find and unbind the HID driver */
+	/* Format: bus-port:config.interface */
+	snprintf(device_path, sizeof(device_path), "%d-%d:1.0", bus, address);
+	
+	/* Try to unbind from usbhid driver */
+	snprintf(unbind_path, sizeof(unbind_path), "/sys/bus/usb/drivers/usbhid/unbind");
+	unbind_file = fopen(unbind_path, "w");
+	if (unbind_file) {
+		if (fprintf(unbind_file, "%s\n", device_path) > 0) {
+			sr_info("Successfully unbound HID driver from %s", device_path);
+		} else {
+			sr_spew("Failed to write to usbhid unbind (device may not be bound)");
+		}
+		fclose(unbind_file);
+	} else {
+		sr_spew("Cannot access usbhid unbind path (may need root or device not bound)");
+	}
+
+	/* Also try to unbind from hid-generic driver */
+	snprintf(unbind_path, sizeof(unbind_path), "/sys/bus/hid/drivers/hid-generic/unbind");
+	unbind_file = fopen(unbind_path, "w");
+	if (unbind_file) {
+		/* HID devices have different naming format */
+		snprintf(device_path, sizeof(device_path), "0003:0CD5:0001.%04d", address);
+		if (fprintf(unbind_file, "%s\n", device_path) > 0) {
+			sr_info("Successfully unbound hid-generic driver from %s", device_path);
+		} else {
+			sr_spew("Failed to write to hid-generic unbind");
+		}
+		fclose(unbind_file);
+	} else {
+		sr_spew("Cannot access hid-generic unbind path");
+	}
+
+	return ret;
 }
 
 /**

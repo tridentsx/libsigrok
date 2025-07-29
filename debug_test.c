@@ -35,6 +35,13 @@ int main(void)
         return 1;
     }
 
+    printf("Initializing driver...\n");
+    if (sr_driver_init(ctx, driver) != SR_OK) {
+        printf("Failed to initialize driver\n");
+        sr_exit(ctx);
+        return 1;
+    }
+
     printf("Scanning for devices...\n");
     fflush(stdout);
     

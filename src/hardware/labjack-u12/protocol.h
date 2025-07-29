@@ -15,8 +15,8 @@
 /* USB communication constants */
 #define LABJACK_USB_INTERFACE     0
 #define LABJACK_USB_TIMEOUT_MS    1000
-#define LABJACK_USB_ENDPOINT_OUT  0x01
-#define LABJACK_USB_ENDPOINT_IN   0x81
+#define LABJACK_USB_ENDPOINT_OUT  0x02  /* EP 2 OUT from descriptor */
+#define LABJACK_USB_ENDPOINT_IN   0x81  /* EP 1 IN from descriptor */
 
 /* LabJack U12 USB packet structure */
 #define LABJACK_USB_PACKET_SIZE   8
@@ -242,6 +242,7 @@ SR_PRIV int labjack_u12_bulk_io(const struct sr_dev_inst *sdi,
 /* Utility functions */
 SR_PRIV float labjack_u12_raw_to_voltage(uint16_t raw_value, uint8_t range);
 SR_PRIV uint16_t labjack_u12_voltage_to_raw(float voltage);
+SR_PRIV int labjack_u12_unbind_hid_driver(int bus, int address);
 
 SR_PRIV int labjack_u12_receive_data(int fd, int revents, void *cb_data);
 
