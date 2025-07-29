@@ -18,41 +18,32 @@
  */
 
 #include <config.h>
+#include <sys/time.h>
+#include <inttypes.h>
 #include "protocol.h"
 #include <libusb.h>
 #include "libsigrok/libsigrok.h"
 #include "libsigrok-internal.h"
 
 static struct sr_dev_driver labjack_u12_driver_info;
-GSList *dev_scan(struct sr_dev_driver *di, GSList *options);
 
-
-static const uint32_t scanopts[] = {
-    SR_CONF_CONN,
-    0,
-};
-
-static const uint32_t drvopts[] = {
-   // SR_CONF_SCAN,           // Allows detection via --scan
-    SR_CONF_CONN,           // Connection information
-    SR_CONF_SAMPLERATE,     // Sampling rate setting
-    SR_CONF_VOLTAGE,        // Hypothetical voltage range setting
-    SR_CONF_LIMIT_SAMPLES,  // Sample limit
-    0
-};
-
-
-SR_PRIV GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
+static GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
 {
     struct sr_dev_inst *sdi;
     struct sr_usb_dev_inst *usb;
+    struct dev_context *devc;
+    struct sr_channel *ch;
+    struct sr_channel_group *cg;
     libusb_context *usb_ctx;
     libusb_device **devlist;
     libusb_device *dev;
     struct libusb_device_descriptor desc;
     ssize_t num_devs;
-    int i, r;
+    int i, r, ch_idx;
     GSList *found_devs = NULL;
+    char ch_name[16], cg_name[16];
+
+    (void)options;
 
     if ((r = libusb_init(&usb_ctx)) != 0) {
         sr_err("libusb_init failed: %s.", libusb_error_name(r));
@@ -73,10 +64,95 @@ SR_PRIV GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
             sdi->vendor = g_strdup("LabJack");
             sdi->model = g_strdup("U12");
 
+            /* Allocate device context */
+            devc = g_malloc0(sizeof(struct dev_context));
+            
+            /* Initialize device context with defaults */
+            devc->ai_mode = AI_MODE_SINGLE_ENDED; /* Default to single-ended */
+            for (int j = 0; j < 8; j++) {
+                devc->ai_enabled[j] = FALSE;
+                devc->ai_range[j] = LABJACK_AI_RANGE_10V; /* Default to ±10V */
+            }
+            for (int j = 0; j < 4; j++)
+                devc->ai_diff_enabled[j] = FALSE;
+            for (int j = 0; j < 2; j++)
+                devc->ao_voltage[j] = 0.0;
+            for (int j = 0; j < 4; j++)
+                devc->io_mode[j] = IO_MODE_INPUT;
+            for (int j = 0; j < 16; j++)
+                devc->d_mode[j] = D_MODE_INPUT;
+            devc->counter_value = 0;
+            devc->is_open = FALSE;
+            
+            /* Initialize USB communication */
             usb = g_malloc0(sizeof(struct sr_usb_dev_inst));
             usb->address = libusb_get_device_address(dev);
             usb->bus = libusb_get_bus_number(dev);
+            devc->usb = usb;
+            g_mutex_init(&devc->usb_mutex);
+            
+            /* Initialize acquisition state */
+            devc->limit_samples = 0;
+            devc->num_samples = 0;
+            devc->acquisition_running = FALSE;
+            
+            sdi->priv = devc;
             sdi->conn = usb;
+
+            ch_idx = 0;
+
+            /* Create analog input channels (AI0-AI7) */
+            /* Note: In differential mode, AI0+AI1, AI2+AI3, AI4+AI5, AI6+AI7 become pairs */
+            for (int j = 0; j < 8; j++) {
+                snprintf(ch_name, sizeof(ch_name), "AI%d", j);
+                ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_ANALOG, FALSE, ch_name);
+                sdi->channels = g_slist_append(sdi->channels, ch);
+            }
+
+            /* Create channel groups for differential pairs */
+            for (int j = 0; j < 4; j++) {
+                snprintf(cg_name, sizeof(cg_name), "AI%d+AI%d", j*2, j*2+1);
+                cg = g_malloc0(sizeof(struct sr_channel_group));
+                cg->name = g_strdup(cg_name);
+                cg->channels = NULL;
+                /* Add the two channels that form this differential pair */
+                cg->channels = g_slist_append(cg->channels, g_slist_nth_data(sdi->channels, j*2));
+                cg->channels = g_slist_append(cg->channels, g_slist_nth_data(sdi->channels, j*2+1));
+                sdi->channel_groups = g_slist_append(sdi->channel_groups, cg);
+            }
+
+            /* Create analog output channels (AO0-AO1) */
+            for (int j = 0; j < 2; j++) {
+                snprintf(ch_name, sizeof(ch_name), "AO%d", j);
+                ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_ANALOG, FALSE, ch_name);
+                sdi->channels = g_slist_append(sdi->channels, ch);
+                
+                /* Create channel group for each AO */
+                snprintf(cg_name, sizeof(cg_name), "AO%d", j);
+                cg = g_malloc0(sizeof(struct sr_channel_group));
+                cg->name = g_strdup(cg_name);
+                cg->channels = g_slist_append(cg->channels, ch);
+                sdi->channel_groups = g_slist_append(sdi->channel_groups, cg);
+            }
+
+            /* Create digital I/O channels (IO0-IO3) */
+            for (int j = 0; j < 4; j++) {
+                snprintf(ch_name, sizeof(ch_name), "IO%d", j);
+                ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_LOGIC, FALSE, ch_name);
+                sdi->channels = g_slist_append(sdi->channels, ch);
+            }
+
+            /* Create digital channels (D0-D15) */
+            for (int j = 0; j < 16; j++) {
+                snprintf(ch_name, sizeof(ch_name), "D%d", j);
+                ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_LOGIC, FALSE, ch_name);
+                sdi->channels = g_slist_append(sdi->channels, ch);
+            }
+
+            /* Create counter channel */
+            ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_ANALOG, FALSE, "CNT");
+            sdi->channels = g_slist_append(sdi->channels, ch);
+
             sdi->inst_type = SR_INST_USB;
 
             found_devs = g_slist_append(found_devs, sdi);
@@ -93,18 +169,110 @@ SR_PRIV GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
 
 static int dev_open(struct sr_dev_inst *sdi)
 {
-	(void)sdi;
+	struct sr_usb_dev_inst *usb;
+	struct dev_context *devc;
+	libusb_device **devlist;
+	struct libusb_device_descriptor des;
+	libusb_device_handle *hdl;
+	int ret, i;
 
-	/* TODO: get handle from sdi->conn and open it. */
+	if (sdi->status != SR_ST_INACTIVE) {
+		sr_err("Device already open.");
+		return SR_ERR;
+	}
+
+	usb = sdi->conn;
+	devc = sdi->priv;
+
+	if (!usb || !devc)
+		return SR_ERR_BUG;
+
+	/* Find and open the device */
+	if (libusb_get_device_list(NULL, &devlist) < 0) {
+		sr_err("Failed to get USB device list.");
+		return SR_ERR;
+	}
+
+	for (i = 0; devlist[i]; i++) {
+		ret = libusb_get_device_descriptor(devlist[i], &des);
+		if (ret != 0)
+			continue;
+
+		if (des.idVendor != LABJACK_VENDOR_ID || des.idProduct != LABJACK_PRODUCT_ID)
+			continue;
+
+		if (libusb_get_bus_number(devlist[i]) != usb->bus ||
+		    libusb_get_device_address(devlist[i]) != usb->address)
+			continue;
+
+		if ((ret = libusb_open(devlist[i], &hdl)) < 0) {
+			sr_err("Failed to open device: %s.", libusb_error_name(ret));
+			break;
+		}
+
+		usb->devhdl = hdl;
+		break;
+	}
+
+	libusb_free_device_list(devlist, 1);
+
+	if (!usb->devhdl) {
+		sr_err("Failed to find and open LabJack U12 device.");
+		return SR_ERR;
+	}
+
+	/* Claim the interface */
+	if (libusb_claim_interface(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
+		sr_err("Failed to claim USB interface.");
+		libusb_close(usb->devhdl);
+		usb->devhdl = NULL;
+		return SR_ERR;
+	}
+
+	sdi->status = SR_ST_ACTIVE;
+	devc->is_open = TRUE;
+
+	/* Reset device to known state */
+	ret = labjack_u12_reset_device(sdi);
+	if (ret != SR_OK) {
+		sr_warn("Failed to reset device, continuing anyway.");
+	}
+
+	sr_info("LabJack U12 device opened successfully.");
 
 	return SR_OK;
 }
 
 static int dev_close(struct sr_dev_inst *sdi)
 {
-	(void)sdi;
+	struct sr_usb_dev_inst *usb;
+	struct dev_context *devc;
 
-	/* TODO: get handle from sdi->conn and close it. */
+	if (sdi->status != SR_ST_ACTIVE)
+		return SR_OK;
+
+	usb = sdi->conn;
+	devc = sdi->priv;
+
+	if (!usb || !devc)
+		return SR_ERR_BUG;
+
+	/* Stop any ongoing acquisition */
+	if (devc->acquisition_running) {
+		devc->acquisition_running = FALSE;
+	}
+
+	/* Release USB interface and close device */
+	if (usb->devhdl) {
+		libusb_release_interface(usb->devhdl, LABJACK_USB_INTERFACE);
+		libusb_close(usb->devhdl);
+		usb->devhdl = NULL;
+	}
+
+	sdi->status = SR_ST_INACTIVE;
+	devc->is_open = FALSE;
+
+	sr_info("LabJack U12 device closed.");
 
 	return SR_OK;
 }
@@ -114,63 +282,335 @@ static int config_get(uint32_t key, GVariant **data,
 	const struct sr_dev_inst *sdi,
 	const struct sr_channel_group *cg)
 {
-	struct dev_context *ctx = sdi->priv;
+	struct dev_context *devc = sdi->priv;
 
-	if (!ctx || !data)
+	(void)cg;
+
+	if (!devc || !data)
 		return SR_ERR_ARG;
 
-	if (key == SR_CONF_DEVICE_OPTIONS) {
+	switch (key) {
+	case SR_CONF_DEVICE_OPTIONS:
 		/* Not used in get; handled in list */
 		return SR_ERR_NA;
-	}
-
-	if (key == SR_CONF_DEVICE_MODE) {
-		const char *mode_str = (ctx->ai_mode == AI_MODE_DIFFERENTIAL) ? "differential" : "single-ended";
-		*data = g_variant_new_string(mode_str);
+	
+	case SR_CONF_DEVICE_MODE:
+		*data = g_variant_new_string(
+			(devc->ai_mode == AI_MODE_DIFFERENTIAL) ? "differential" : "single-ended");
 		return SR_OK;
-	}
-
-	/* AO outputs */
-	if (key == SR_CONF_VOLTAGE) {
-		*data = g_variant_new_double(ctx->ao_voltage[0]); // Example for AO0
+	
+	case SR_CONF_VOLTAGE:
+		/* For AO channels - this would need channel group context to determine AO0 vs AO1 */
+		*data = g_variant_new_double(devc->ao_voltage[0]); /* Default to AO0 */
 		return SR_OK;
+	
+	case SR_CONF_LIMIT_SAMPLES:
+		*data = g_variant_new_uint64(devc->limit_samples);
+		return SR_OK;
+	
+	case SR_CONF_PATTERN_MODE:
+		/* Used for digital I/O mode configuration */
+		if (cg && cg->channels) {
+			struct sr_channel *ch = cg->channels->data;
+			if (ch && ch->type == SR_CHANNEL_LOGIC) {
+				const char *mode_str = "input";
+				if (ch->index >= 10 && ch->index < 14) {
+					/* IO channels */
+					int io_idx = ch->index - 10;
+					switch (devc->io_mode[io_idx]) {
+					case IO_MODE_OUTPUT_LOW:
+						mode_str = "output-low";
+						break;
+					case IO_MODE_OUTPUT_HIGH:
+						mode_str = "output-high";
+						break;
+					default:
+						mode_str = "input";
+						break;
+					}
+				} else if (ch->index >= 14 && ch->index < 30) {
+					/* D channels */
+					int d_idx = ch->index - 14;
+					switch (devc->d_mode[d_idx]) {
+					case D_MODE_OUTPUT_LOW:
+						mode_str = "output-low";
+						break;
+					case D_MODE_OUTPUT_HIGH:
+						mode_str = "output-high";
+						break;
+					default:
+						mode_str = "input";
+						break;
+					}
+				}
+				*data = g_variant_new_string(mode_str);
+				return SR_OK;
+			}
+		}
+		return SR_ERR_NA;
+	
+	default:
+		return SR_ERR_NA;
 	}
-
-	/* Add more cases as needed... */
-
-	return SR_ERR_NA;
 }
 
 static int config_set(uint32_t key, GVariant *data,
-	struct sr_dev_inst *sdi,
-	struct sr_channel_group *cg)
+	const struct sr_dev_inst *sdi,
+	const struct sr_channel_group *cg)
 {
-	struct dev_context *ctx = sdi->priv;
+	struct dev_context *devc = sdi->priv;
+	struct sr_channel *ch;
+	GSList *l;
+	int i, pair_index;
 
-	if (!ctx || !data)
+	(void)cg;
+
+	if (!devc || !data)
 		return SR_ERR_ARG;
 
-	if (key == SR_CONF_DEVICE_MODE) {
-		const char *mode_str = g_variant_get_string(data, NULL);
-		if (g_strcmp0(mode_str, "differential") == 0) {
-			ctx->ai_mode = AI_MODE_DIFFERENTIAL;
-		} else if (g_strcmp0(mode_str, "single-ended") == 0) {
-			ctx->ai_mode = AI_MODE_SINGLE_ENDED;
-		} else {
-			return SR_ERR_ARG;
+	switch (key) {
+	case SR_CONF_DEVICE_MODE:
+		{
+			const char *mode_str = g_variant_get_string(data, NULL);
+			enum { NEW_MODE_SINGLE_ENDED, NEW_MODE_DIFFERENTIAL } new_mode;
+			
+			if (g_strcmp0(mode_str, "differential") == 0) {
+				new_mode = NEW_MODE_DIFFERENTIAL;
+			} else if (g_strcmp0(mode_str, "single-ended") == 0) {
+				new_mode = NEW_MODE_SINGLE_ENDED;
+			} else {
+				return SR_ERR_ARG;
+			}
+
+			/* If mode is changing, update channel availability */
+			if ((new_mode == NEW_MODE_DIFFERENTIAL && devc->ai_mode != AI_MODE_DIFFERENTIAL) ||
+			    (new_mode == NEW_MODE_SINGLE_ENDED && devc->ai_mode != AI_MODE_SINGLE_ENDED)) {
+				
+				/* Disable all AI channels first */
+				for (i = 0; i < 8; i++)
+					devc->ai_enabled[i] = FALSE;
+				for (i = 0; i < 4; i++)
+					devc->ai_diff_enabled[i] = FALSE;
+
+				/* Update channel enabled state in libsigrok */
+				for (l = sdi->channels; l; l = l->next) {
+					ch = l->data;
+					if (ch->type == SR_CHANNEL_ANALOG && ch->index < 8) {
+						/* AI0-AI7 channels */
+						ch->enabled = FALSE; /* Start disabled, user can enable as needed */
+					}
+				}
+
+				/* Update the mode */
+				devc->ai_mode = (new_mode == NEW_MODE_DIFFERENTIAL) ? 
+					AI_MODE_DIFFERENTIAL : AI_MODE_SINGLE_ENDED;
+				
+				sr_info("LabJack U12 AI mode changed to %s", mode_str);
+			}
+			return SR_OK;
 		}
-		return SR_OK;
+
+	case SR_CONF_ENABLED:
+		{
+			gboolean enabled = g_variant_get_boolean(data);
+			
+			/* This should be called with a channel group context to know which channel */
+			if (!cg || !cg->channels) {
+				sr_err("Channel enable/disable requires channel group context");
+				return SR_ERR_ARG;
+			}
+			
+			/* Get the first channel in the group */
+			ch = cg->channels->data;
+			if (!ch) {
+				return SR_ERR_ARG;
+			}
+			
+			/* Handle AI channel enable/disable */
+			if (ch->type == SR_CHANNEL_ANALOG && ch->index < 8) {
+				int ai_index = ch->index;
+				
+				if (enabled) {
+					/* Check if this channel can be enabled in current mode */
+					if (!labjack_u12_is_ai_channel_available(devc, ai_index)) {
+						sr_err("AI%d is not available in %s mode", ai_index,
+							(devc->ai_mode == AI_MODE_DIFFERENTIAL) ? "differential" : "single-ended");
+						return SR_ERR_ARG;
+					}
+					
+					if (labjack_u12_ai_channels_conflict(devc, ai_index)) {
+						sr_err("AI%d conflicts with current channel configuration", ai_index);
+						return SR_ERR_ARG;
+					}
+					
+					if (devc->ai_mode == AI_MODE_SINGLE_ENDED) {
+						devc->ai_enabled[ai_index] = TRUE;
+					} else {
+						/* Differential mode - enable the pair */
+						pair_index = labjack_u12_get_differential_pair(ai_index);
+						if (pair_index >= 0 && pair_index < 4) {
+							devc->ai_diff_enabled[pair_index] = TRUE;
+							/* Also disable the individual channels that form this pair */
+							devc->ai_enabled[ai_index] = FALSE;
+							devc->ai_enabled[ai_index + 1] = FALSE;
+						}
+					}
+				} else {
+					/* Disable channel */
+					if (devc->ai_mode == AI_MODE_SINGLE_ENDED) {
+						devc->ai_enabled[ai_index] = FALSE;
+					} else {
+						pair_index = labjack_u12_get_differential_pair(ai_index);
+						if (pair_index >= 0 && pair_index < 4) {
+							devc->ai_diff_enabled[pair_index] = FALSE;
+						}
+					}
+				}
+				
+				ch->enabled = enabled;
+				sr_info("AI%d %s", ai_index, enabled ? "enabled" : "disabled");
+			}
+			
+			return SR_OK;
+		}
+
+	case SR_CONF_VOLTAGE:
+		{
+			double voltage = g_variant_get_double(data);
+			if (voltage < 0.0 || voltage > 5.0) {
+				sr_err("AO voltage must be between 0.0 and 5.0V");
+				return SR_ERR_ARG;
+			}
+			
+			/* Use channel group to determine which AO channel */
+			if (cg && cg->channels) {
+				ch = cg->channels->data;
+				if (ch && ch->type == SR_CHANNEL_ANALOG && ch->index >= 8 && ch->index < 10) {
+					int ao_index = ch->index - 8; /* AO0 = index 8, AO1 = index 9 */
+					devc->ao_voltage[ao_index] = voltage;
+					sr_info("AO%d voltage set to %.3fV", ao_index, voltage);
+					return SR_OK;
+				}
+			}
+			
+			/* Fallback to AO0 if no channel group specified */
+			devc->ao_voltage[0] = voltage;
+			sr_info("AO0 voltage set to %.3fV (default)", voltage);
+			return SR_OK;
+		}
+
+	case SR_CONF_LIMIT_SAMPLES:
+		{
+			uint64_t limit = g_variant_get_uint64(data);
+			devc->limit_samples = limit;
+			sr_info("Sample limit set to %" PRIu64, limit);
+			return SR_OK;
+		}
+
+	case SR_CONF_PATTERN_MODE:
+		{
+			const char *mode_str = g_variant_get_string(data, NULL);
+			int ret;
+			
+			if (!cg || !cg->channels) {
+				sr_err("Digital I/O mode setting requires channel group context");
+				return SR_ERR_ARG;
+			}
+			
+			ch = cg->channels->data;
+			if (!ch || ch->type != SR_CHANNEL_LOGIC) {
+				sr_err("Pattern mode only applies to logic channels");
+				return SR_ERR_ARG;
+			}
+			
+			/* Parse mode string */
+			enum { NEW_MODE_INPUT, NEW_MODE_OUTPUT_LOW, NEW_MODE_OUTPUT_HIGH } new_mode;
+			if (g_strcmp0(mode_str, "input") == 0) {
+				new_mode = NEW_MODE_INPUT;
+			} else if (g_strcmp0(mode_str, "output-low") == 0) {
+				new_mode = NEW_MODE_OUTPUT_LOW;
+			} else if (g_strcmp0(mode_str, "output-high") == 0) {
+				new_mode = NEW_MODE_OUTPUT_HIGH;
+			} else {
+				sr_err("Invalid digital I/O mode: %s", mode_str);
+				return SR_ERR_ARG;
+			}
+			
+			/* Apply to appropriate channel */
+			if (ch->index >= 10 && ch->index < 14) {
+				/* IO channels */
+				int io_idx = ch->index - 10;
+				switch (new_mode) {
+				case NEW_MODE_INPUT:
+					devc->io_mode[io_idx] = IO_MODE_INPUT;
+					break;
+				case NEW_MODE_OUTPUT_LOW:
+					devc->io_mode[io_idx] = IO_MODE_OUTPUT_LOW;
+					break;
+				case NEW_MODE_OUTPUT_HIGH:
+					devc->io_mode[io_idx] = IO_MODE_OUTPUT_HIGH;
+					break;
+				}
+				sr_info("IO%d mode set to %s", io_idx, mode_str);
+			} else if (ch->index >= 14 && ch->index < 30) {
+				/* D channels */
+				int d_idx = ch->index - 14;
+				switch (new_mode) {
+				case NEW_MODE_INPUT:
+					devc->d_mode[d_idx] = D_MODE_INPUT;
+					break;
+				case NEW_MODE_OUTPUT_LOW:
+					devc->d_mode[d_idx] = D_MODE_OUTPUT_LOW;
+					break;
+				case NEW_MODE_OUTPUT_HIGH:
+					devc->d_mode[d_idx] = D_MODE_OUTPUT_HIGH;
+					break;
+				}
+				sr_info("D%d mode set to %s", d_idx, mode_str);
+			} else {
+				sr_err("Invalid logic channel index: %d", ch->index);
+				return SR_ERR_ARG;
+			}
+			
+			/* Apply the configuration to hardware if device is open */
+			if (devc->is_open) {
+				uint32_t io_direction = 0, io_state = 0;
+				uint32_t d_direction = 0, d_state = 0;
+				
+				/* Build IO direction and state */
+				for (int i = 0; i < 4; i++) {
+					if (devc->io_mode[i] != IO_MODE_INPUT) {
+						io_direction |= (1 << i);
+						if (devc->io_mode[i] == IO_MODE_OUTPUT_HIGH) {
+							io_state |= (1 << i);
+						}
+					}
+				}
+				
+				/* Build D direction and state */
+				for (int i = 0; i < 16; i++) {
+					if (devc->d_mode[i] != D_MODE_INPUT) {
+						d_direction |= (1 << i);
+						if (devc->d_mode[i] == D_MODE_OUTPUT_HIGH) {
+							d_state |= (1 << i);
+						}
+					}
+				}
+				
+				/* Apply to hardware */
+				ret = labjack_u12_write_digital_io(sdi, io_direction, io_state, 
+				                                   d_direction, d_state);
+				if (ret != SR_OK) {
+					sr_warn("Failed to apply digital I/O configuration to hardware");
+				}
+			}
+			
+			return SR_OK;
+		}
+
+	default:
+		return SR_ERR_NA;
 	}
-
-	if (key == SR_CONF_VOLTAGE) {
-		double voltage = g_variant_get_double(data);
-		ctx->ao_voltage[0] = voltage; // AO0 example
-		return SR_OK;
-	}
-
-	/* Add more cases for IOx and Dx mode... */
-
-	return SR_ERR_NA;
 }
 
 
@@ -178,50 +618,159 @@ static int config_list(uint32_t key, GVariant **data,
 	const struct sr_dev_inst *sdi,
 	const struct sr_channel_group *cg)
 {
-	if (key == SR_CONF_DEVICE_OPTIONS) {
-		const uint32_t opts[] = {
-		SR_CONF_DEVICE_MODE,
-		SR_CONF_VOLTAGE,
-		/* Add more exposed config keys here */
-		};
-		*data = g_variant_new_fixed_array(G_VARIANT_TYPE_UINT32,
-				opts, G_N_ELEMENTS(opts), sizeof(uint32_t));
-		return SR_OK;
-	}
+	(void)sdi;
 
-	if (key == SR_CONF_DEVICE_MODE) {
-		const char *modes[] = {"single-ended", "differential"};
-		*data = g_variant_new_strv(modes, G_N_ELEMENTS(modes));
+	switch (key) {
+	case SR_CONF_DEVICE_OPTIONS:
+		if (!cg) {
+			/* Device-wide options */
+			const uint32_t opts[] = {
+				SR_CONF_DEVICE_MODE,
+				SR_CONF_LIMIT_SAMPLES,
+			};
+			*data = g_variant_new_fixed_array(G_VARIANT_TYPE_UINT32,
+					opts, G_N_ELEMENTS(opts), sizeof(uint32_t));
+		} else {
+			/* Channel group specific options */
+			const uint32_t opts[] = {
+				SR_CONF_ENABLED,
+				SR_CONF_VOLTAGE, /* For AO channels */
+				SR_CONF_PATTERN_MODE, /* For digital I/O channels */
+			};
+			*data = g_variant_new_fixed_array(G_VARIANT_TYPE_UINT32,
+					opts, G_N_ELEMENTS(opts), sizeof(uint32_t));
+		}
 		return SR_OK;
-	}
 
-	if (key == SR_CONF_VOLTAGE) {
-		/* AO0/AO1 output is between 0–5V */
-		double range[] = {0.0, 5.0};
-		*data = g_variant_new_fixed_array(G_VARIANT_TYPE_DOUBLE,
-							range, 2, sizeof(double));
-		return SR_OK;
-	}
+	case SR_CONF_DEVICE_MODE:
+		{
+			const char *modes[] = {"single-ended", "differential"};
+			*data = g_variant_new_strv(modes, G_N_ELEMENTS(modes));
+			return SR_OK;
+		}
 
-	return SR_ERR_NA;
+	case SR_CONF_VOLTAGE:
+		{
+			/* AO0/AO1 output is between 0–5V */
+			double range[] = {0.0, 5.0};
+			*data = g_variant_new_fixed_array(G_VARIANT_TYPE_DOUBLE,
+								range, 2, sizeof(double));
+			return SR_OK;
+		}
+
+	case SR_CONF_PATTERN_MODE:
+		{
+			const char *modes[] = {"input", "output-low", "output-high"};
+			*data = g_variant_new_strv(modes, G_N_ELEMENTS(modes));
+			return SR_OK;
+		}
+
+	default:
+		return SR_ERR_NA;
+	}
 }
 
 
 static int dev_acquisition_start(const struct sr_dev_inst *sdi)
 {
-	/* TODO: configure hardware, reset acquisition state, set up
-	 * callbacks and send header packet. */
+	struct dev_context *devc;
+	struct sr_datafeed_packet packet;
+	struct sr_datafeed_header header;
+	struct sr_datafeed_meta meta;
+	struct sr_config *src;
+	GSList *l;
+	struct sr_channel *ch;
+	int enabled_channels = 0;
 
-	(void)sdi;
+	if (!sdi || !sdi->priv)
+		return SR_ERR_ARG;
+
+	devc = sdi->priv;
+
+	if (devc->acquisition_running) {
+		sr_err("Acquisition already running.");
+		return SR_ERR;
+	}
+
+	if (!devc->is_open) {
+		sr_err("Device not open.");
+		return SR_ERR_DEV_CLOSED;
+	}
+
+	/* Count enabled channels */
+	for (l = sdi->channels; l; l = l->next) {
+		ch = l->data;
+		if (ch->enabled && ch->type == SR_CHANNEL_ANALOG && ch->index < 8) {
+			enabled_channels++;
+		}
+	}
+
+	if (enabled_channels == 0) {
+		sr_err("No channels enabled for acquisition.");
+		return SR_ERR;
+	}
+
+	/* Reset sample counter */
+	devc->num_samples = 0;
+	devc->acquisition_running = TRUE;
+
+	/* Send header packet */
+	packet.type = SR_DF_HEADER;
+	packet.payload = &header;
+	header.feed_version = 1;
+	gettimeofday(&header.starttime, NULL);
+	sr_session_send(sdi, &packet);
+
+	/* Send metadata */
+	packet.type = SR_DF_META;
+	packet.payload = &meta;
+	meta.config = NULL;
+
+	src = sr_config_new(SR_CONF_SAMPLERATE, g_variant_new_uint64(1)); /* 1 Hz for poll mode */
+	meta.config = g_slist_append(meta.config, src);
+
+	if (devc->limit_samples > 0) {
+		src = sr_config_new(SR_CONF_LIMIT_SAMPLES, g_variant_new_uint64(devc->limit_samples));
+		meta.config = g_slist_append(meta.config, src);
+	}
+
+	sr_session_send(sdi, &packet);
+	g_slist_free_full(meta.config, (GDestroyNotify)sr_config_free);
+
+	/* Start polling timer - poll every 100ms */
+	sr_session_source_add(sdi->session, -1, 0, 100, labjack_u12_receive_data, (void *)sdi);
+
+	sr_info("LabJack U12 acquisition started (poll mode, %d channels enabled).", enabled_channels);
 
 	return SR_OK;
 }
 
 static int dev_acquisition_stop(struct sr_dev_inst *sdi)
 {
-	/* TODO: stop acquisition. */
+	struct dev_context *devc;
+	struct sr_datafeed_packet packet;
 
-	(void)sdi;
+	if (!sdi || !sdi->priv)
+		return SR_ERR_ARG;
+
+	devc = sdi->priv;
+
+	if (!devc->acquisition_running) {
+		sr_warn("Acquisition not running.");
+		return SR_OK;
+	}
+
+	devc->acquisition_running = FALSE;
+
+	/* Remove polling source */
+	sr_session_source_remove(sdi->session, -1);
+
+	/* Send end packet */
+	packet.type = SR_DF_END;
+	packet.payload = NULL;
+	sr_session_send(sdi, &packet);
+
+	sr_info("LabJack U12 acquisition stopped. Collected %" PRIu64 " samples.", devc->num_samples);
 
 	return SR_OK;
 }
