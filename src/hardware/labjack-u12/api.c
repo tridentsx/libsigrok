@@ -116,9 +116,17 @@ static GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
                 cg->name = g_strdup(cg_name);
                 cg->channels = NULL;
                 /* Add the two channels that form this differential pair */
-                cg->channels = g_slist_append(cg->channels, g_slist_nth_data(sdi->channels, j*2));
-                cg->channels = g_slist_append(cg->channels, g_slist_nth_data(sdi->channels, j*2+1));
-                sdi->channel_groups = g_slist_append(sdi->channel_groups, cg);
+                struct sr_channel *ch1 = g_slist_nth_data(sdi->channels, j*2);
+                struct sr_channel *ch2 = g_slist_nth_data(sdi->channels, j*2+1);
+                if (ch1 && ch2) {
+                    cg->channels = g_slist_append(cg->channels, ch1);
+                    cg->channels = g_slist_append(cg->channels, ch2);
+                    sdi->channel_groups = g_slist_append(sdi->channel_groups, cg);
+                } else {
+                    sr_err("Failed to create differential pair AI%d+AI%d", j*2, j*2+1);
+                    g_free(cg->name);
+                    g_free(cg);
+                }
             }
 
             /* Create analog output channels (AO0-AO1) */
@@ -226,6 +234,14 @@ static int dev_open(struct sr_dev_inst *sdi)
 		sr_info("Detaching kernel driver from LabJack U12");
 		if (libusb_detach_kernel_driver(usb->devhdl, LABJACK_USB_INTERFACE) < 0) {
 			sr_warn("Failed to detach kernel driver, continuing anyway");
+		}
+	}
+
+	/* Also try to detach from interface 0 (HID interface) */
+	if (libusb_kernel_driver_active(usb->devhdl, 0) == 1) {
+		sr_info("Detaching HID driver from LabJack U12");
+		if (libusb_detach_kernel_driver(usb->devhdl, 0) < 0) {
+			sr_warn("Failed to detach HID driver, continuing anyway");
 		}
 	}
 

@@ -103,12 +103,14 @@ SR_PRIV int labjack_u12_usb_write(const struct sr_dev_inst *sdi,
 	struct dev_context *devc;
 	int transferred, ret;
 
-	if (!sdi || !sdi->priv || !data)
+	if (!sdi || !sdi->priv || !data || length == 0)
 		return SR_ERR_ARG;
 
 	devc = sdi->priv;
-	if (!devc->usb || !devc->usb->devhdl)
+	if (!devc->usb || !devc->usb->devhdl) {
+		sr_err("USB device not open or invalid");
 		return SR_ERR_DEV_CLOSED;
+	}
 
 	g_mutex_lock(&devc->usb_mutex);
 	
@@ -148,12 +150,14 @@ SR_PRIV int labjack_u12_usb_read(const struct sr_dev_inst *sdi,
 	struct dev_context *devc;
 	int transferred, ret;
 
-	if (!sdi || !sdi->priv || !data)
+	if (!sdi || !sdi->priv || !data || length == 0)
 		return SR_ERR_ARG;
 
 	devc = sdi->priv;
-	if (!devc->usb || !devc->usb->devhdl)
+	if (!devc->usb || !devc->usb->devhdl) {
+		sr_err("USB device not open or invalid");
 		return SR_ERR_DEV_CLOSED;
+	}
 
 	g_mutex_lock(&devc->usb_mutex);
 	
