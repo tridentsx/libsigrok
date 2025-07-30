@@ -1,0 +1,144 @@
+Command: for i in {1..5}; do sigrok-cli -d labjack-u12 --channels AI0 --samples 5 -l 5; done
+Timestamp: Wed Jul 30 01:39:01 CEST 2025
+========================================
+sr: [00:00.000052] log: libsigrok loglevel set to 5.
+sr: [00:00.000069] backend: libsigrok 0.6.0-git-7ac98bfe/4:0:0.
+sr: [00:00.000110] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000121] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000128] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000133] backend: Firmware search paths:
+sr: [00:00.000160] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000166] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000171] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000176] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000181] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000202] backend: Sanity-checking all drivers.
+sr: [00:00.000212] backend: Sanity-checking all input modules.
+sr: [00:00.000219] backend: Sanity-checking all output modules.
+sr: [00:00.000228] backend: Sanity-checking all transform modules.
+sr: [00:00.002270] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.002288] device: labjack-u12: Opening device instance.
+sr: [00:00.002302] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.002315] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.002320] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002324] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002327] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.104848] labjack-u12: Successfully claimed interface 0
+sr: [00:00.104861] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.114312] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.214686] labjack-u12: LabJack U12 device reset
+sr: [00:00.214714] labjack-u12: LabJack U12 device opened successfully.
+Failed to configure sample limit.
+sr: [00:00.000029] log: libsigrok loglevel set to 5.
+sr: [00:00.000039] backend: libsigrok 0.6.0-git-7ac98bfe/4:0:0.
+sr: [00:00.000062] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000067] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000071] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000073] backend: Firmware search paths:
+sr: [00:00.000091] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000094] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000096] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000099] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000102] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000113] backend: Sanity-checking all drivers.
+sr: [00:00.000119] backend: Sanity-checking all input modules.
+sr: [00:00.000123] backend: Sanity-checking all output modules.
+sr: [00:00.000129] backend: Sanity-checking all transform modules.
+sr: [00:00.002130] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.002147] device: labjack-u12: Opening device instance.
+sr: [00:00.002160] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.002168] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.002172] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002176] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002179] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.105321] labjack-u12: Successfully claimed interface 0
+sr: [00:00.105334] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.111653] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.211816] labjack-u12: LabJack U12 device reset
+sr: [00:00.211830] labjack-u12: LabJack U12 device opened successfully.
+Failed to configure sample limit.
+sr: [00:00.000037] log: libsigrok loglevel set to 5.
+sr: [00:00.000047] backend: libsigrok 0.6.0-git-7ac98bfe/4:0:0.
+sr: [00:00.000074] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000081] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000086] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000089] backend: Firmware search paths:
+sr: [00:00.000108] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000111] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000115] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000118] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000121] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000135] backend: Sanity-checking all drivers.
+sr: [00:00.000142] backend: Sanity-checking all input modules.
+sr: [00:00.000146] backend: Sanity-checking all output modules.
+sr: [00:00.000157] backend: Sanity-checking all transform modules.
+sr: [00:00.002152] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.002167] device: labjack-u12: Opening device instance.
+sr: [00:00.002180] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.002192] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.002197] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002202] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002206] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.104947] labjack-u12: Successfully claimed interface 0
+sr: [00:00.104966] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.113405] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.213637] labjack-u12: LabJack U12 device reset
+sr: [00:00.213659] labjack-u12: LabJack U12 device opened successfully.
+Failed to configure sample limit.
+sr: [00:00.000040] log: libsigrok loglevel set to 5.
+sr: [00:00.000054] backend: libsigrok 0.6.0-git-7ac98bfe/4:0:0.
+sr: [00:00.000084] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000091] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000096] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000100] backend: Firmware search paths:
+sr: [00:00.000122] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000126] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000129] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000133] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000136] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000152] backend: Sanity-checking all drivers.
+sr: [00:00.000160] backend: Sanity-checking all input modules.
+sr: [00:00.000165] backend: Sanity-checking all output modules.
+sr: [00:00.000173] backend: Sanity-checking all transform modules.
+sr: [00:00.002654] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.002677] device: labjack-u12: Opening device instance.
+sr: [00:00.002696] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.002713] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.002720] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002726] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002732] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.106172] labjack-u12: Successfully claimed interface 0
+sr: [00:00.106186] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.117397] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.217703] labjack-u12: LabJack U12 device reset
+sr: [00:00.217718] labjack-u12: LabJack U12 device opened successfully.
+Failed to configure sample limit.
+sr: [00:00.000033] log: libsigrok loglevel set to 5.
+sr: [00:00.000044] backend: libsigrok 0.6.0-git-7ac98bfe/4:0:0.
+sr: [00:00.000079] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000086] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000090] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000093] backend: Firmware search paths:
+sr: [00:00.000111] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000115] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000118] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000121] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000124] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000137] backend: Sanity-checking all drivers.
+sr: [00:00.000146] backend: Sanity-checking all input modules.
+sr: [00:00.000150] backend: Sanity-checking all output modules.
+sr: [00:00.000155] backend: Sanity-checking all transform modules.
+sr: [00:00.002000] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.002019] device: labjack-u12: Opening device instance.
+sr: [00:00.002035] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.002047] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.002051] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002055] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.002059] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.105075] labjack-u12: Successfully claimed interface 0
+sr: [00:00.105100] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.112237] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.212359] labjack-u12: LabJack U12 device reset
+sr: [00:00.212372] labjack-u12: LabJack U12 device opened successfully.
+Failed to configure sample limit.
+RESULT: FAIL

@@ -1,0 +1,32 @@
+Command: sigrok-cli -d labjack-u12 --config device-mode=differential --channels AI0,AI2 --samples 10 -l 5
+Timestamp: Wed Jul 30 01:38:59 CEST 2025
+========================================
+sr: [00:00.000032] log: libsigrok loglevel set to 5.
+sr: [00:00.000044] backend: libsigrok 0.6.0-git-7ac98bfe/4:0:0.
+sr: [00:00.000073] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000079] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000083] backend: SCPI backends: TCP, RPC, serial, USBTMC.
+sr: [00:00.000087] backend: Firmware search paths:
+sr: [00:00.000107] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000110] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000113] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000116] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000119] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000144] backend: Sanity-checking all drivers.
+sr: [00:00.000153] backend: Sanity-checking all input modules.
+sr: [00:00.000157] backend: Sanity-checking all output modules.
+sr: [00:00.000164] backend: Sanity-checking all transform modules.
+sr: [00:00.002960] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.002982] device: labjack-u12: Opening device instance.
+sr: [00:00.002998] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.003014] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.003018] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.003022] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.003025] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.106558] labjack-u12: Successfully claimed interface 0
+sr: [00:00.106573] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.108200] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.208577] labjack-u12: LabJack U12 device reset
+sr: [00:00.208608] labjack-u12: LabJack U12 device opened successfully.
+Unknown device option 'device-mode'.
+RESULT: FAIL

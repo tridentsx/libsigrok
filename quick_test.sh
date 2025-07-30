@@ -49,19 +49,19 @@ fi
 
 # Test device opening
 echo -e "${YELLOW}4. Testing device opening...${NC}"
-if sigrok-cli -d labjack-u12 --config device-mode=single-ended --channels AI0 --samples 1 -l 5 >/dev/null 2>&1; then
+if sigrok-cli -d labjack-u12 --config device_mode=single-ended --channels AI0 --samples 1 -l 5 >/dev/null 2>&1; then
     echo -e "${GREEN}✅ Device opens successfully${NC}"
 else
     echo -e "${RED}❌ Device opening failed${NC}"
     echo "Running with verbose output:"
-    sigrok-cli -d labjack-u12 --config device-mode=single-ended --channels AI0 --samples 1 -l 5
+    sigrok-cli -d labjack-u12 --config device_mode=single-ended --channels AI0 --samples 1 -l 5
     exit 1
 fi
 
 # Test basic acquisition
 echo -e "${YELLOW}5. Testing basic data acquisition...${NC}"
 echo "Reading AI0 channel (5 samples):"
-if sigrok-cli -d labjack-u12 --config device-mode=single-ended --channels AI0 --samples 5; then
+if sigrok-cli -d labjack-u12 --config device_mode=single-ended --channels AI0 --samples 5; then
     echo -e "${GREEN}✅ Data acquisition successful${NC}"
 else
     echo -e "${RED}❌ Data acquisition failed${NC}"

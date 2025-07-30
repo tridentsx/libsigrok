@@ -129,15 +129,15 @@ run_test "03_list_device_options" \
 echo -e "${BLUE}=== Configuration Tests ===${NC}"
 
 run_test "04_set_single_ended_mode" \
-    "$SIGROK_CLI -d labjack-u12 --config device-mode=single-ended -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config device_mode=single-ended -l $VERBOSE_LEVEL" \
     "true"
 
 run_test "05_set_differential_mode" \
-    "$SIGROK_CLI -d labjack-u12 --config device-mode=differential -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config device_mode=differential -l $VERBOSE_LEVEL" \
     "true"
 
 run_test "06_set_sample_limit" \
-    "$SIGROK_CLI -d labjack-u12 --config limit-samples=100 -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config limit_samples=100 -l $VERBOSE_LEVEL" \
     "true"
 
 run_test "07_invalid_config" \
@@ -148,19 +148,19 @@ run_test "07_invalid_config" \
 echo -e "${BLUE}=== Analog Input Tests ===${NC}"
 
 run_test "08_ai_single_channel" \
-    "$SIGROK_CLI -d labjack-u12 --config device-mode=single-ended --channels AI0 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config device_mode=single-ended --channels AI0 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
     "true"
 
 run_test "09_ai_multiple_channels" \
-    "$SIGROK_CLI -d labjack-u12 --config device-mode=single-ended --channels AI0,AI1,AI2 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config device_mode=single-ended --channels AI0,AI1,AI2 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
     "true"
 
 run_test "10_ai_all_channels" \
-    "$SIGROK_CLI -d labjack-u12 --config device-mode=single-ended --channels AI0,AI1,AI2,AI3,AI4,AI5,AI6,AI7 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config device_mode=single-ended --channels AI0,AI1,AI2,AI3,AI4,AI5,AI6,AI7 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
     "true"
 
 run_test "11_ai_differential_mode" \
-    "$SIGROK_CLI -d labjack-u12 --config device-mode=differential --channels AI0,AI2 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
+    "$SIGROK_CLI -d labjack-u12 --config device_mode=differential --channels AI0,AI2 --samples $TEST_SAMPLES -l $VERBOSE_LEVEL" \
     "true"
 
 # Digital I/O Tests
