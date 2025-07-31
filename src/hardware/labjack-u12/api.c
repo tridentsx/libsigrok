@@ -418,15 +418,28 @@ static int config_set(uint32_t key, GVariant *data,
 	const struct sr_dev_inst *sdi,
 	const struct sr_channel_group *cg)
 {
-	struct dev_context *devc = sdi->priv;
+	struct dev_context *devc;
 	struct sr_channel *ch;
 	GSList *l;
 	int i, pair_index;
 
 	(void)cg;
 
-	if (!devc || !data)
+	if (!sdi) {
+		sr_err("Invalid device instance");
 		return SR_ERR_ARG;
+	}
+
+	devc = sdi->priv;
+	if (!devc) {
+		sr_err("Device context not initialized");
+		return SR_ERR_ARG;
+	}
+
+	if (!data) {
+		sr_err("Configuration data is NULL");
+		return SR_ERR_ARG;
+	}
 
 	switch (key) {
 	case SR_CONF_DEVICE_MODE:
@@ -685,17 +698,17 @@ static int config_list(uint32_t key, GVariant **data,
 		if (!cg) {
 			/* Device-wide options */
 			const uint32_t opts[] = {
-				SR_CONF_DEVICE_MODE,
-				SR_CONF_LIMIT_SAMPLES,
+				SR_CONF_DEVICE_MODE | SR_CONF_GET | SR_CONF_SET | SR_CONF_LIST,
+				SR_CONF_LIMIT_SAMPLES | SR_CONF_GET | SR_CONF_SET,
 			};
 			*data = g_variant_new_fixed_array(G_VARIANT_TYPE_UINT32,
 					opts, G_N_ELEMENTS(opts), sizeof(uint32_t));
 		} else {
 			/* Channel group specific options */
 			const uint32_t opts[] = {
-				SR_CONF_ENABLED,
-				SR_CONF_VOLTAGE, /* For AO channels */
-				SR_CONF_PATTERN_MODE, /* For digital I/O channels */
+				SR_CONF_ENABLED | SR_CONF_GET | SR_CONF_SET,
+				SR_CONF_VOLTAGE | SR_CONF_GET | SR_CONF_SET, /* For AO channels */
+				SR_CONF_PATTERN_MODE | SR_CONF_GET | SR_CONF_SET | SR_CONF_LIST, /* For digital I/O channels */
 			};
 			*data = g_variant_new_fixed_array(G_VARIANT_TYPE_UINT32,
 					opts, G_N_ELEMENTS(opts), sizeof(uint32_t));
