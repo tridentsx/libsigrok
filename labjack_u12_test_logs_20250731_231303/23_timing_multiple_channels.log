@@ -1,0 +1,636 @@
+Command: time sigrok-cli -d labjack-u12 --channels AI0,AI1,AI2,AI3 --samples 10 -l 5
+Timestamp: Thu Jul 31 11:13:30 PM CEST 2025
+========================================
+sr: [00:00.000012] log: libsigrok loglevel set to 5.
+sr: [00:00.000021] backend: libsigrok 0.6.0-git-92ce1077/4:0:0.
+sr: [00:00.000057] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000062] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000067] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000070] backend: Firmware search paths:
+sr: [00:00.000086] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000090] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000093] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000096] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000099] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000103] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000106] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000122] backend: Sanity-checking all drivers.
+sr: [00:00.000127] backend: Sanity-checking all input modules.
+sr: [00:00.000132] backend: Sanity-checking all output modules.
+sr: [00:00.000143] backend: Sanity-checking all transform modules.
+sr: [00:00.013962] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.013998] device: labjack-u12: Opening device instance.
+sr: [00:00.014034] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 3, address 5)
+sr: [00:00.014061] labjack-u12: Failed to unbind using path 3-5:1.0
+sr: [00:00.014068] labjack-u12: Failed to unbind using path 1-3:1.0
+sr: [00:00.014075] labjack-u12: Failed to unbind using path 3-1:1.0
+sr: [00:00.014082] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.127201] labjack-u12: Successfully claimed interface 0
+sr: [00:00.127210] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.128768] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.229344] labjack-u12: LabJack U12 device reset
+sr: [00:00.229360] labjack-u12: LabJack U12 device opened successfully.
+sr: [00:00.229413] hwdriver: sr_config_set(): key 50001 (limit_samples) sdi 0x5c2e57f55bb0 cg NULL -> uint64 10
+sr: [00:00.229419] labjack-u12: Sample limit set to 10
+sr: [00:00.229447] session: Using thread-default main context.
+sr: [00:00.229452] session: Starting.
+sr: [00:00.229456] hwdriver: labjack-u12: Starting acquisition.
+sr: [00:00.229465] session: bus: Received SR_DF_HEADER packet.
+cli: Received SR_DF_HEADER.
+sr: [00:00.229622] session: bus: Received SR_DF_META packet.
+cli: Received SR_DF_META.
+cli: Got samplerate 1 Hz.
+META limit_samples: 10
+sr: [00:00.229647] labjack-u12: LabJack U12 acquisition started (poll mode, 8 channels enabled).
+sr: [00:00.330259] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.337319] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.337333] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.345431] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.345445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.345450] labjack-u12: Failed to read AI0: -1
+sr: [00:00.345455] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.353322] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.353336] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.361097] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.361110] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.361115] labjack-u12: Failed to read AI0: -1
+sr: [00:00.361120] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.369265] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.369279] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.377437] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.377450] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.377455] labjack-u12: Failed to read AI1: -1
+sr: [00:00.377461] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.385294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.385331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.393438] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.393453] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.393458] labjack-u12: Failed to read AI1: -1
+sr: [00:00.393463] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.401294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.401331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.409432] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.409446] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.409451] labjack-u12: Failed to read AI2: -1
+sr: [00:00.409457] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.417294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.417331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.425432] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.425446] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.425451] labjack-u12: Failed to read AI2: -1
+sr: [00:00.425457] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.433292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.433331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.441223] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.441236] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.441241] labjack-u12: Failed to read AI3: -1
+sr: [00:00.441246] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.449317] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.449331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.457433] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.457447] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.457452] labjack-u12: Failed to read AI3: -1
+sr: [00:00.457464] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:00.457628] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.465320] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.465335] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.473432] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.473446] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.473452] labjack-u12: Failed to read AI0: -1
+sr: [00:00.473457] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.481294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.481330] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.488975] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.488988] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.488993] labjack-u12: Failed to read AI0: -1
+sr: [00:00.488999] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.497293] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.497331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.505436] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.505450] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.505455] labjack-u12: Failed to read AI1: -1
+sr: [00:00.505461] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.513292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.513329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.521431] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.521445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.521450] labjack-u12: Failed to read AI1: -1
+sr: [00:00.521456] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.529292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.529329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.537431] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.537445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.537450] labjack-u12: Failed to read AI2: -1
+sr: [00:00.537456] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.545324] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.545337] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.553430] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.553443] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.553448] labjack-u12: Failed to read AI2: -1
+sr: [00:00.553454] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.561324] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.561338] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.569433] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.569446] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.569451] labjack-u12: Failed to read AI3: -1
+sr: [00:00.569457] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.577294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.577331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.585439] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.585453] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.585458] labjack-u12: Failed to read AI3: -1
+sr: [00:00.585469] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:00.585619] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.593292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.593329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.601431] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.601445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.601450] labjack-u12: Failed to read AI0: -1
+sr: [00:00.601456] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.609292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.609330] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.617407] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.617420] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.617425] labjack-u12: Failed to read AI0: -1
+sr: [00:00.617430] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.625321] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.625335] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.632974] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.632987] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.632993] labjack-u12: Failed to read AI1: -1
+sr: [00:00.632998] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.641321] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.641336] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.649431] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.649445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.649450] labjack-u12: Failed to read AI1: -1
+sr: [00:00.649455] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.657324] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.657337] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.665407] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.665421] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.665426] labjack-u12: Failed to read AI2: -1
+sr: [00:00.665432] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.673290] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.673327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.681434] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.681448] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.681452] labjack-u12: Failed to read AI2: -1
+sr: [00:00.681458] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.689293] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.689328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.697436] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.697450] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.697455] labjack-u12: Failed to read AI3: -1
+sr: [00:00.697460] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.705291] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.705327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.713430] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.713444] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.713449] labjack-u12: Failed to read AI3: -1
+sr: [00:00.713461] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:00.713490] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.721292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.721330] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.729429] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.729442] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.729447] labjack-u12: Failed to read AI0: -1
+sr: [00:00.729453] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.736879] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.736894] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.745430] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.745444] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.745449] labjack-u12: Failed to read AI0: -1
+sr: [00:00.745455] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.753316] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.753331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.760973] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.760987] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.760992] labjack-u12: Failed to read AI1: -1
+sr: [00:00.760997] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.769323] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.769337] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.777432] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.777445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.777451] labjack-u12: Failed to read AI1: -1
+sr: [00:00.777456] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.785290] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.785327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.793432] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.793446] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.793452] labjack-u12: Failed to read AI2: -1
+sr: [00:00.793457] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.801289] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.801326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.809437] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.809451] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.809456] labjack-u12: Failed to read AI2: -1
+sr: [00:00.809462] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.817290] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.817327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.824984] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.824998] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.825003] labjack-u12: Failed to read AI3: -1
+sr: [00:00.825009] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.833292] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.833329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.841428] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.841441] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.841446] labjack-u12: Failed to read AI3: -1
+sr: [00:00.841458] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:00.841487] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.849293] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.849329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.857429] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.857443] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.857448] labjack-u12: Failed to read AI0: -1
+sr: [00:00.857453] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.865294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.865331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.873431] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.873445] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.873450] labjack-u12: Failed to read AI0: -1
+sr: [00:00.873456] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.880922] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.880934] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.889016] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.889022] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.889027] labjack-u12: Failed to read AI1: -1
+sr: [00:00.889032] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.897281] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.897295] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.905094] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.905106] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.905111] labjack-u12: Failed to read AI1: -1
+sr: [00:00.905116] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.912944] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.912957] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.921430] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.921443] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.921448] labjack-u12: Failed to read AI2: -1
+sr: [00:00.921454] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.929291] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.929327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.937081] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.937094] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.937099] labjack-u12: Failed to read AI2: -1
+sr: [00:00.937104] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.945321] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.945340] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.953410] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.953423] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.953428] labjack-u12: Failed to read AI3: -1
+sr: [00:00.953433] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.961288] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.961329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.969428] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.969442] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.969447] labjack-u12: Failed to read AI3: -1
+sr: [00:00.969460] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:00.969489] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.977294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.977331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.985428] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.985442] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:00.985447] labjack-u12: Failed to read AI0: -1
+sr: [00:00.985453] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.992841] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.992855] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.001434] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.001447] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.001452] labjack-u12: Failed to read AI0: -1
+sr: [00:01.001458] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.009288] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.009329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.017070] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.017083] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.017088] labjack-u12: Failed to read AI1: -1
+sr: [00:01.017093] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.024887] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.024893] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.033426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.033440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.033445] labjack-u12: Failed to read AI1: -1
+sr: [00:01.033451] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.041292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.041328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.049426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.049440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.049445] labjack-u12: Failed to read AI2: -1
+sr: [00:01.049450] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.057289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.057326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.065431] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.065444] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.065449] labjack-u12: Failed to read AI2: -1
+sr: [00:01.065454] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.073288] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.073325] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.080945] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.080959] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.080964] labjack-u12: Failed to read AI3: -1
+sr: [00:01.080969] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.089288] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.089324] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.097426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.097441] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.097446] labjack-u12: Failed to read AI3: -1
+sr: [00:01.097458] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:01.097487] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.104840] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.104853] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.113429] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.113442] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.113447] labjack-u12: Failed to read AI0: -1
+sr: [00:01.113452] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.121289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.121331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.129657] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.129671] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.129676] labjack-u12: Failed to read AI0: -1
+sr: [00:01.129682] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.137289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.137325] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.144957] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.144970] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.144976] labjack-u12: Failed to read AI1: -1
+sr: [00:01.144981] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.153289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.153326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.161075] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.161088] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.161093] labjack-u12: Failed to read AI1: -1
+sr: [00:01.161098] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.169292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.169329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.177427] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.177440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.177446] labjack-u12: Failed to read AI2: -1
+sr: [00:01.177451] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.185289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.185326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.193428] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.193442] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.193447] labjack-u12: Failed to read AI2: -1
+sr: [00:01.193453] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.201292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.201327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.209426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.209440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.209445] labjack-u12: Failed to read AI3: -1
+sr: [00:01.209451] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.217290] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.217326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.225426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.225440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.225445] labjack-u12: Failed to read AI3: -1
+sr: [00:01.225457] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:01.225486] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.232846] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.232860] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.241425] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.241439] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.241444] labjack-u12: Failed to read AI0: -1
+sr: [00:01.241450] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.249292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.249331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.257427] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.257441] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.257446] labjack-u12: Failed to read AI0: -1
+sr: [00:01.257451] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.265291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.265327] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.273673] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.273687] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.273692] labjack-u12: Failed to read AI1: -1
+sr: [00:01.273697] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.281291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.281329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.289432] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.289446] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.289451] labjack-u12: Failed to read AI1: -1
+sr: [00:01.289457] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.297292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.297330] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.305424] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.305438] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.305443] labjack-u12: Failed to read AI2: -1
+sr: [00:01.305448] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.313291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.313328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.321425] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.321439] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.321444] labjack-u12: Failed to read AI2: -1
+sr: [00:01.321450] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.329289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.329326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.337651] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.337665] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.337670] labjack-u12: Failed to read AI3: -1
+sr: [00:01.337675] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.345291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.345328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.353425] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.353439] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.353444] labjack-u12: Failed to read AI3: -1
+sr: [00:01.353456] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:01.353485] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.361292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.361331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.369412] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.369427] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.369432] labjack-u12: Failed to read AI0: -1
+sr: [00:01.369438] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.377289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.377326] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.385425] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.385439] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.385444] labjack-u12: Failed to read AI0: -1
+sr: [00:01.385450] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.393291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.393328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.401648] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.401662] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.401667] labjack-u12: Failed to read AI1: -1
+sr: [00:01.401673] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.409265] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.409278] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.417419] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.417433] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.417439] labjack-u12: Failed to read AI1: -1
+sr: [00:01.417444] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.425288] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.425325] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.433423] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.433437] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.433442] labjack-u12: Failed to read AI2: -1
+sr: [00:01.433448] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.441292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.441329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.449424] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.449438] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.449443] labjack-u12: Failed to read AI2: -1
+sr: [00:01.449449] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.457291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.457328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.464965] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.464977] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.464983] labjack-u12: Failed to read AI3: -1
+sr: [00:01.464988] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.473291] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.473331] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.480999] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.481010] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.481016] labjack-u12: Failed to read AI3: -1
+sr: [00:01.481026] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:01.481058] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.488882] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.488888] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.497708] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.497724] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.497731] labjack-u12: Failed to read AI0: -1
+sr: [00:01.497737] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.505289] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.505328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.513426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.513440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.513445] labjack-u12: Failed to read AI0: -1
+sr: [00:01.513450] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.521290] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.521328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.529422] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.529436] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.529441] labjack-u12: Failed to read AI1: -1
+sr: [00:01.529446] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.537292] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.537328] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.545423] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.545436] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.545442] labjack-u12: Failed to read AI1: -1
+sr: [00:01.545448] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.553293] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.553330] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.561422] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.561436] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.561442] labjack-u12: Failed to read AI2: -1
+sr: [00:01.561447] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.569293] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.569329] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.577426] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.577440] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.577445] labjack-u12: Failed to read AI2: -1
+sr: [00:01.577450] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.585286] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.585333] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.593428] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.593441] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.593446] labjack-u12: Failed to read AI3: -1
+sr: [00:01.593452] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.601284] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.601325] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.609425] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.609438] labjack-u12: Command echo mismatch: sent 0x01, got 0x00
+sr: [00:01.609443] labjack-u12: Failed to read AI3: -1
+sr: [00:01.609454] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: nan V
+AI0: nan V
+AI1: nan V
+AI1: nan V
+AI2: nan V
+AI2: nan V
+AI3: nan V
+AI3: nan V
+sr: [00:01.609483] hwdriver: labjack-u12: Stopping acquisition.
+sr: [00:01.609492] session: bus: Received SR_DF_END packet.
+cli: Received SR_DF_END.
+sr: [00:01.609623] labjack-u12: LabJack U12 acquisition stopped. Collected 10 samples.
+sr: [00:01.609628] session: fd_source_finalize: key 0xffffffffffffffff
+sr: [00:01.609640] session: Stopped.
+sr: [00:01.609652] hwdriver: Cleaning up all drivers.
+
+real	0m1.614s
+user	0m0.032s
+sys	0m0.027s
+RESULT: PASS

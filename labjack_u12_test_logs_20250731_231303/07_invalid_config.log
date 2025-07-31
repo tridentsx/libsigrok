@@ -1,0 +1,61 @@
+Command: sigrok-cli -d labjack-u12 --config invalid-option=test -l 5
+Timestamp: Thu Jul 31 11:13:04 PM CEST 2025
+========================================
+sr: [00:00.000010] log: libsigrok loglevel set to 5.
+sr: [00:00.000016] backend: libsigrok 0.6.0-git-92ce1077/4:0:0.
+sr: [00:00.000042] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000048] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000052] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000056] backend: Firmware search paths:
+sr: [00:00.000075] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000078] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000081] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000085] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000088] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000091] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000094] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000108] backend: Sanity-checking all drivers.
+sr: [00:00.000113] backend: Sanity-checking all input modules.
+sr: [00:00.000121] backend: Sanity-checking all output modules.
+sr: [00:00.000129] backend: Sanity-checking all transform modules.
+sr: [00:00.007589] hwdriver: Cleaning up all drivers.
+Usage:
+  sigrok-cli [OPTION…]
+
+Help Options:
+  -h, --help                 Show help options
+
+Application Options:
+  -V, --version              Show version
+  -L, --list-supported       List supported devices/modules/decoders
+  --list-supported-wiki      List supported decoders (MediaWiki)
+  -l, --loglevel             Set loglevel (5 is most verbose)
+  -d, --driver               The driver to use
+  -c, --config               Specify device configuration options
+  -i, --input-file           Load input from file
+  -I, --input-format         Input format
+  -o, --output-file          Save output to file
+  -O, --output-format        Output format
+  -T, --transform-module     Transform module
+  -C, --channels             Channels to use
+  -g, --channel-group        Channel groups
+  -t, --triggers             Trigger configuration
+  -w, --wait-trigger         Wait for trigger
+  --scan                     Scan for devices
+  -D, --dont-scan            Don't auto-scan (use -d spec only)
+  --show                     Show device/format/decoder details
+  --time                     How long to sample (ms)
+  --samples                  Number of samples to acquire
+  --frames                   Number of frames to acquire
+  --continuous               Sample continuously
+  --get                      Get device options only
+  --set                      Set device options only
+  --list-serial              List available serial/HID/BT/BLE ports
+
+Example use, typical options:
+  -d <driver> --scan
+  -d <driver> { --samples N | --frames N | --time T | --continuous }
+  { -d <driver> | -I <format> | -O <format> } --show
+  See the manpage or the wiki for more details.
+  Note: --samples/--frames/--time/--continuous is required for acquisition.
+RESULT: UNEXPECTED_SUCCESS

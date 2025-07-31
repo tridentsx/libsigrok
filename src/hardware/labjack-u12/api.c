@@ -773,8 +773,11 @@ static int dev_acquisition_start(const struct sr_dev_inst *sdi)
 	/* Count enabled channels */
 	for (l = sdi->channels; l; l = l->next) {
 		ch = l->data;
-		if (ch->enabled && ch->type == SR_CHANNEL_ANALOG && ch->index < 8) {
-			enabled_channels++;
+		if (ch->enabled) {
+			if ((ch->type == SR_CHANNEL_ANALOG && ch->index < 8) ||  /* AI0-AI7 */
+			    (ch->type == SR_CHANNEL_LOGIC && ch->index >= 8)) {   /* IO0-IO3, D0-D15, CNT */
+				enabled_channels++;
+			}
 		}
 	}
 

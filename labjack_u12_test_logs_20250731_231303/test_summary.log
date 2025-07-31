@@ -1,0 +1,53 @@
+=========================================
+LabJack U12 Driver Test Summary
+=========================================
+Test Date: Thu Jul 31 11:13:32 PM CEST 2025
+Log Directory: labjack_u12_test_logs_20250731_231303
+
+=== TEST RESULTS ===
+✅ 01_driver_scan: PASS
+✅ 02_driver_scan_verbose: PASS
+✅ 03_list_device_options: PASS
+✅ 04_set_single_ended_mode: PASS
+✅ 05_set_differential_mode: PASS
+✅ 06_set_sample_limit: PASS
+❌ 07_invalid_config: UNEXPECTED_SUCCESS
+✅ 08_ai_single_channel: PASS
+✅ 09_ai_multiple_channels: PASS
+✅ 10_ai_all_channels: PASS
+✅ 11_ai_differential_mode: PASS
+❌ 12_digital_io_channels: FAIL
+❌ 13_digital_d_channels: FAIL
+❌ 14_mixed_digital_channels: FAIL
+❌ 15_counter_channel: FAIL
+✅ 16_analog_digital_mixed: PASS
+✅ 17_all_channel_types: PASS
+✅ 18_long_acquisition: PASS
+✅ 19_rapid_start_stop: PASS
+✅ 20_invalid_channel: EXPECTED_FAIL
+✅ 21_conflicting_differential: EXPECTED_FAIL
+✅ 22_timing_single_sample: PASS
+✅ 23_timing_multiple_channels: PASS
+✅ 24_device_info: PASS
+❌ 25_continuous_mode: FAIL
+
+=== SUMMARY ===
+Total Tests: 25
+Passed: 19
+Failed: 6
+Success Rate: 76%
+
+=== CRITICAL ISSUES ===
+The following tests failed unexpectedly:
+- 12_digital_io_channels
+- 13_digital_d_channels
+- 14_mixed_digital_channels
+- 15_counter_channel
+- 25_continuous_mode
+
+=== NEXT STEPS ===
+1. Review individual test logs for detailed error information
+2. Check system_info.log for hardware/system configuration
+3. Send entire log directory to developer for analysis
+4. Pay special attention to any FAIL results
+
