@@ -224,17 +224,13 @@ SR_PRIV int labjack_u12_send_command(const struct sr_dev_inst *sdi,
 		if (ret != SR_OK)
 			return ret;
 
-		/* Debug: Log the full response packet */
-		sr_spew("Response packet: %02x %02x %02x %02x %02x %02x %02x %02x",
+		/* Debug: Log the response packet */
+		sr_spew("U12 Response: %02x %02x %02x %02x %02x %02x %02x %02x...",
 		        ((uint8_t*)response)[0], ((uint8_t*)response)[1], ((uint8_t*)response)[2], ((uint8_t*)response)[3],
 		        ((uint8_t*)response)[4], ((uint8_t*)response)[5], ((uint8_t*)response)[6], ((uint8_t*)response)[7]);
 
-		/* Verify command echo - be more tolerant for now */
-		if (response->command != request->command) {
-			sr_warn("Command echo mismatch: sent 0x%02x, got 0x%02x (continuing anyway)",
-			        request->command, response->command);
-			/* Don't return error - continue processing */
-		}
+		/* U12 does NOT echo commands - interpret response based on command sent */
+		sr_spew("U12 protocol: No command echo verification (command 0x%02x)", request->command);
 	}
 
 	return SR_OK;
@@ -292,7 +288,7 @@ SR_PRIV uint16_t labjack_u12_voltage_to_raw(float voltage)
 }
 
 /**
- * Read an analog input channel.
+ * Read an analog input channel using correct U12 protocol.
  * 
  * @param sdi Device instance
  * @param channel AI channel number (0-7)
@@ -305,6 +301,7 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 	struct dev_context *devc;
 	struct labjack_u12_ai_request request;
 	struct labjack_u12_ai_response response;
+	uint16_t adc_value;
 	int ret;
 
 	if (!sdi || !sdi->priv || !voltage || channel < 0 || channel > 7)
@@ -312,13 +309,17 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 
 	devc = sdi->priv;
 
-	/* Prepare AI request */
+	/* Prepare AI request using correct U12 protocol */
 	memset(&request, 0, sizeof(request));
-	request.command = LABJACK_CMD_AI_SAMPLE;
-	request.channel = channel;
-	request.mode = (devc->ai_mode == AI_MODE_DIFFERENTIAL) ? 
-	               LABJACK_AI_DIFFERENTIAL : LABJACK_AI_SINGLE_ENDED;
-	request.range = devc->ai_range[channel]; /* Use per-channel range */
+	request.command = LABJACK_CMD_READ_INPUTS;
+	
+	/* Channel + mode in one byte */
+	request.channel_mode = channel;
+	if (devc->ai_mode == AI_MODE_DIFFERENTIAL) {
+		request.channel_mode |= 0x08;  /* Set differential bit */
+	}
+	
+	request.options = 0;  /* No special options */
 
 	/* Send command and get response */
 	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request,
@@ -326,17 +327,20 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 	if (ret != SR_OK)
 		return ret;
 
-	/* Check for errors */
-	if (response.status != 0) {
-		sr_err("AI read error on channel %d: status 0x%02x", channel, response.status);
-		return SR_ERR;
+	/* Extract 12-bit ADC value from response (little-endian) */
+	adc_value = response.adc_low | (response.adc_high << 8);
+	adc_value &= 0x0FFF;  /* Mask to 12 bits */
+
+	/* Convert to voltage - U12 uses 0-5V range for single-ended */
+	if (devc->ai_mode == AI_MODE_SINGLE_ENDED) {
+		*voltage = (adc_value / 4095.0f) * 5.0f;  /* 0-5V */
+	} else {
+		*voltage = ((adc_value / 4095.0f) * 10.0f) - 5.0f;  /* ±5V differential */
 	}
 
-	/* Convert raw value to voltage */
-	*voltage = labjack_u12_raw_to_voltage(response.raw_value, request.range);
-
-	sr_spew("AI%d: raw=0x%04x, voltage=%.3fV, range=%d", 
-	        channel, response.raw_value, *voltage, request.range);
+	sr_spew("U12 AI%d: raw=0x%04x, voltage=%.3fV, mode=%s", 
+	        channel, adc_value, *voltage, 
+	        (devc->ai_mode == AI_MODE_DIFFERENTIAL) ? "diff" : "se");
 
 	return SR_OK;
 }

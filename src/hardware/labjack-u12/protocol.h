@@ -19,19 +19,18 @@
 #define LABJACK_USB_ENDPOINT_IN   0x81  /* EP 1 IN from descriptor */
 
 /* LabJack U12 USB packet structure */
-#define LABJACK_USB_PACKET_SIZE   8
+#define LABJACK_USB_PACKET_SIZE   64  /* U12 uses 64-byte packets */
 
-/* LabJack U12 command constants */
-#define LABJACK_CMD_RESET         0x99
-#define LABJACK_CMD_AI_SAMPLE     0x01
-#define LABJACK_CMD_AO_UPDATE     0x02
-#define LABJACK_CMD_DIGITAL_IO    0x03
-#define LABJACK_CMD_COUNTER       0x04
-#define LABJACK_CMD_WATCHDOG      0x05
-#define LABJACK_CMD_READ_RAM      0x06
-#define LABJACK_CMD_WRITE_RAM     0x07
-#define LABJACK_CMD_READ_ROM      0x08
-#define LABJACK_CMD_BULK_IO       0x09  /* Combined I/O operations */
+/* LabJack U12 command constants - Based on actual U12 protocol */
+#define LABJACK_CMD_READ_INPUTS   0x00  /* Read AI channels */
+#define LABJACK_CMD_WRITE_AO      0x01  /* Write analog outputs */
+#define LABJACK_CMD_READ_DIO      0x02  /* Read digital I/O */
+#define LABJACK_CMD_WRITE_DIO     0x03  /* Write digital I/O */
+#define LABJACK_CMD_READ_COUNTER  0x04  /* Read counter */
+#define LABJACK_CMD_RESET_COUNTER 0x05  /* Reset counter */
+#define LABJACK_CMD_BURST_READ    0x10  /* Burst/stream read */
+#define LABJACK_CMD_GET_STATUS    0x20  /* Get device status */
+#define LABJACK_CMD_RESET         0x99  /* Device reset */
 
 /* AI sampling modes */
 #define LABJACK_AI_SINGLE_ENDED   0x00
@@ -80,62 +79,100 @@
 #define D_MODE_OUTPUT_LOW_STR      "output-low"
 #define D_MODE_OUTPUT_HIGH_STR     "output-high"
 
-/* USB packet structures */
+/* USB packet structures - Based on actual U12 protocol */
+
+/* Generic 64-byte packet structure */
 struct labjack_u12_packet {
-	uint8_t command;
-	uint8_t data[7];
+	uint8_t data[64];
 };
 
+/* AI Read Request (Command 0x00) */
 struct labjack_u12_ai_request {
-	uint8_t command;        /* LABJACK_CMD_AI_SAMPLE */
-	uint8_t channel;        /* AI channel number (0-7) */
-	uint8_t mode;          /* Single-ended or differential */
-	uint8_t range;         /* Voltage range */
-	uint8_t reserved[4];   /* Padding to 8 bytes */
+	uint8_t command;        /* 0x00 */
+	uint8_t channel_mode;   /* Channel number + mode (SE/Diff) */
+	uint8_t options;        /* Additional options */
+	uint8_t padding[61];    /* Pad to 64 bytes */
 };
 
+/* AI Read Response */
 struct labjack_u12_ai_response {
-	uint8_t command;       /* Echo of command */
-	uint8_t channel;       /* Echo of channel */
-	uint16_t raw_value;    /* 12-bit ADC value */
-	uint8_t status;        /* Status/error code */
-	uint8_t reserved[3];   /* Padding */
+	uint8_t status;         /* Status flags */
+	uint8_t adc_low;        /* ADC low byte */
+	uint8_t adc_high;       /* ADC high byte */
+	uint8_t padding[61];    /* Rest is padding */
 };
 
+/* AO Write Request (Command 0x01) */
 struct labjack_u12_ao_request {
-	uint8_t command;       /* LABJACK_CMD_AO_UPDATE */
-	uint8_t channel;       /* AO channel (0-1) */
-	uint16_t raw_value;    /* 12-bit DAC value */
-	uint8_t reserved[4];   /* Padding */
+	uint8_t command;        /* 0x01 */
+	uint8_t ao0_low;        /* AO0 low byte */
+	uint8_t ao0_high;       /* AO0 high byte */
+	uint8_t ao1_low;        /* AO1 low byte */
+	uint8_t ao1_high;       /* AO1 high byte */
+	uint8_t padding[59];    /* Pad to 64 bytes */
 };
 
-struct labjack_u12_digital_io_request {
-	uint8_t command;       /* LABJACK_CMD_DIGITAL_IO */
-	uint8_t io_direction;  /* IO0-IO3 direction bits (1=output, 0=input) */
-	uint8_t io_state;      /* IO0-IO3 output state bits */
-	uint16_t d_direction;  /* D0-D15 direction bits */
-	uint16_t d_state;      /* D0-D15 output state bits */
-	uint8_t reserved;      /* Padding */
+/* AO Write Response */
+struct labjack_u12_ao_response {
+	uint8_t status;         /* Status byte */
+	uint8_t padding[63];    /* Rest is padding */
 };
 
-struct labjack_u12_digital_io_response {
-	uint8_t command;       /* Echo of command */
-	uint8_t io_state;      /* IO0-IO3 input state */
-	uint16_t d_state;      /* D0-D15 input state */
-	uint8_t reserved[4];   /* Padding */
+/* Digital I/O Read Request (Command 0x02) */
+struct labjack_u12_dio_read_request {
+	uint8_t command;        /* 0x02 */
+	uint8_t padding[63];    /* Pad to 64 bytes */
 };
 
+/* Digital I/O Read Response */
+struct labjack_u12_dio_read_response {
+	uint8_t bitmask;        /* IO0-IO3 + D0-D15 states */
+	uint8_t padding[63];    /* Rest is padding */
+};
+
+/* Digital I/O Write Request (Command 0x03) */
+struct labjack_u12_dio_write_request {
+	uint8_t command;        /* 0x03 */
+	uint8_t output_mask;    /* Which pins to affect */
+	uint8_t value_mask;     /* Values to set */
+	uint8_t padding[61];    /* Pad to 64 bytes */
+};
+
+/* Digital I/O Write Response */
+struct labjack_u12_dio_write_response {
+	uint8_t status;         /* Status byte */
+	uint8_t padding[63];    /* Rest is padding */
+};
+
+/* Counter Read Request (Command 0x04) */
 struct labjack_u12_counter_request {
-	uint8_t command;       /* LABJACK_CMD_COUNTER */
-	uint8_t operation;     /* RESET or READ */
-	uint8_t reserved[6];   /* Padding */
+	uint8_t command;        /* 0x04 */
+	uint8_t padding[63];    /* Pad to 64 bytes */
 };
 
+/* Counter Read Response */
 struct labjack_u12_counter_response {
-	uint8_t command;       /* Echo of command */
-	uint8_t operation;     /* Echo of operation */
-	uint32_t count;        /* Counter value */
-	uint8_t reserved[2];   /* Padding */
+	uint8_t status;         /* Status byte */
+	uint8_t counter_b0;     /* Counter byte 0 (LSB) */
+	uint8_t counter_b1;     /* Counter byte 1 */
+	uint8_t counter_b2;     /* Counter byte 2 */
+	uint8_t counter_b3;     /* Counter byte 3 (MSB) */
+	uint8_t padding[59];    /* Rest is padding */
+};
+
+/* Counter Reset Request (Command 0x05) */
+struct labjack_u12_counter_reset_request {
+	uint8_t command;        /* 0x05 */
+	uint8_t padding[63];    /* Pad to 64 bytes */
+};
+
+/* Counter Reset Response */
+struct labjack_u12_counter_reset_response {
+	uint8_t status;         /* Status byte */
+	uint8_t padding[63];    /* Rest is padding */
+};
+
+/* Device context structure */
 };
 
 struct labjack_u12_bulk_io_request {
