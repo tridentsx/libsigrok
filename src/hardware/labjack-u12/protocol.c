@@ -229,12 +229,8 @@ SR_PRIV int labjack_u12_send_command(const struct sr_dev_inst *sdi,
 		        ((uint8_t*)response)[0], ((uint8_t*)response)[1], ((uint8_t*)response)[2], ((uint8_t*)response)[3],
 		        ((uint8_t*)response)[4], ((uint8_t*)response)[5], ((uint8_t*)response)[6], ((uint8_t*)response)[7]);
 
-		/* Verify command echo - be more tolerant for now */
-		if (response->command != request->command) {
-			sr_warn("Command echo mismatch: sent 0x%02x, got 0x%02x (continuing anyway)",
-			        request->command, response->command);
-			/* Don't return error - continue processing */
-		}
+		/* U12 does NOT echo commands - older protocol design */
+		sr_spew("U12 protocol: No command echo verification needed");
 	}
 
 	return SR_OK;

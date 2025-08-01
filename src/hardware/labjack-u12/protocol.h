@@ -19,7 +19,7 @@
 #define LABJACK_USB_ENDPOINT_IN   0x81  /* EP 1 IN from descriptor */
 
 /* LabJack U12 USB packet structure */
-#define LABJACK_USB_PACKET_SIZE   8
+#define LABJACK_USB_PACKET_SIZE   64  /* U12 uses 64-byte packets */
 
 /* LabJack U12 command constants */
 #define LABJACK_CMD_RESET         0x99
