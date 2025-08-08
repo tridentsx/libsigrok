@@ -91,6 +91,14 @@ static GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
             devc->usb = usb;
             g_mutex_init(&devc->usb_mutex);
             
+            /* Initialize unified polling state */
+            g_mutex_init(&devc->polling_mutex);
+            g_cond_init(&devc->polling_cond);
+            devc->polling_thread_running = FALSE;
+            devc->polling_thread = NULL;
+            devc->poll_interval_ms = 100;  /* Default 10 Hz */
+            devc->samples_collected = 0;
+            
             /* Initialize acquisition state */
             devc->limit_samples = 0;
             devc->num_samples = 0;
@@ -312,7 +320,16 @@ static int dev_close(struct sr_dev_inst *sdi)
 
 	/* Stop any ongoing acquisition */
 	if (devc->acquisition_running) {
+		/* Call the static function directly since we're in the same file */
 		devc->acquisition_running = FALSE;
+		
+		/* Stop unified polling thread */
+		labjack_u12_stop_polling_acquisition(sdi);
+	}
+
+	/* Ensure polling thread is stopped */
+	if (devc->polling_thread_running) {
+		labjack_u12_stop_polling_acquisition(sdi);
 	}
 
 	/* Release USB interface and close device */
@@ -841,10 +858,19 @@ static int dev_acquisition_start(const struct sr_dev_inst *sdi)
 	sr_session_send(sdi, &packet);
 	g_slist_free_full(meta.config, (GDestroyNotify)sr_config_free);
 
-	/* Start polling timer - poll every 100ms */
-	sr_session_source_add(sdi->session, -1, 0, 100, labjack_u12_receive_data, (void *)sdi);
+	/* Use unified polling thread for all acquisition modes */
+	int ret = labjack_u12_start_polling_acquisition(sdi);
+	if (ret != SR_OK) {
+		sr_err("Failed to start polling acquisition");
+		devc->acquisition_running = FALSE;
+		return ret;
+	}
 
-	sr_info("LabJack U12 acquisition started (poll mode, %d channels enabled).", enabled_channels);
+	if (devc->continuous) {
+		sr_info("LabJack U12 acquisition started (continuous polling mode, %d channels enabled).", enabled_channels);
+	} else {
+		sr_info("LabJack U12 acquisition started (sample-limited polling mode, %d channels enabled).", enabled_channels);
+	}
 
 	return SR_OK;
 }
@@ -866,8 +892,8 @@ static int dev_acquisition_stop(struct sr_dev_inst *sdi)
 
 	devc->acquisition_running = FALSE;
 
-	/* Remove polling source */
-	sr_session_source_remove(sdi->session, -1);
+	/* Stop unified polling thread */
+	labjack_u12_stop_polling_acquisition(sdi);
 
 	/* Send end packet */
 	packet.type = SR_DF_END;

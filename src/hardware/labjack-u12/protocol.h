@@ -252,6 +252,14 @@ struct dev_context {
 	uint64_t num_samples;
 	gboolean acquisition_running;
 	gboolean continuous;
+	
+	/* Unified polling thread state */
+	gboolean polling_thread_running; /* Polling thread control flag */
+	GThread *polling_thread;         /* Unified polling thread */
+	GMutex polling_mutex;            /* Protect polling state */
+	GCond polling_cond;              /* Polling thread synchronization */
+	uint32_t poll_interval_ms;       /* Polling interval in milliseconds */
+	uint64_t samples_collected;      /* Total samples collected */
 };
 
 /* Helper functions for channel management */
@@ -291,6 +299,11 @@ SR_PRIV int labjack_u12_bulk_io(const struct sr_dev_inst *sdi,
 SR_PRIV float labjack_u12_raw_to_voltage(uint16_t raw_value, uint8_t range);
 SR_PRIV uint16_t labjack_u12_voltage_to_raw(float voltage);
 SR_PRIV int labjack_u12_unbind_hid_driver(int bus, int address);
+
+/* Unified polling thread functions */
+SR_PRIV gpointer labjack_u12_polling_thread(gpointer data);
+SR_PRIV int labjack_u12_start_polling_acquisition(const struct sr_dev_inst *sdi);
+SR_PRIV int labjack_u12_stop_polling_acquisition(const struct sr_dev_inst *sdi);
 
 SR_PRIV int labjack_u12_receive_data(int fd, int revents, void *cb_data);
 

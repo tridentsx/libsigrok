@@ -15,6 +15,8 @@ NC='\033[0m' # No Color
 
 # Test configuration
 LOGDIR="labjack_u12_test_logs_$(date +%Y%m%d_%H%M%S)"
+# Use our compiled library instead of system-installed one
+export LD_LIBRARY_PATH="$(pwd)/.libs:$LD_LIBRARY_PATH"
 SIGROK_CLI="sigrok-cli"
 TEST_SAMPLES=10
 VERBOSE_LEVEL=5
