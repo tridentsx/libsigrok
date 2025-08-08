@@ -95,6 +95,7 @@ static GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
             devc->limit_samples = 0;
             devc->num_samples = 0;
             devc->acquisition_running = FALSE;
+            devc->continuous = FALSE;
             
             sdi->priv = devc;
             sdi->conn = usb;
@@ -158,7 +159,7 @@ static GSList *dev_scan(struct sr_dev_driver *di, GSList *options)
             }
 
             /* Create counter channel */
-            ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_ANALOG, FALSE, "CNT");
+            ch = sr_channel_new(sdi, ch_idx++, SR_CHANNEL_LOGIC, FALSE, "CNT");
             sdi->channels = g_slist_append(sdi->channels, ch);
 
             sdi->inst_type = SR_INST_USB;
@@ -366,6 +367,10 @@ static int config_get(uint32_t key, GVariant **data,
 	
 	case SR_CONF_LIMIT_SAMPLES:
 		*data = g_variant_new_uint64(devc->limit_samples);
+		return SR_OK;
+	
+	case SR_CONF_CONTINUOUS:
+		*data = g_variant_new_boolean(devc->continuous);
 		return SR_OK;
 	
 	case SR_CONF_PATTERN_MODE:
@@ -580,6 +585,14 @@ static int config_set(uint32_t key, GVariant *data,
 			return SR_OK;
 		}
 
+	case SR_CONF_CONTINUOUS:
+		{
+			gboolean continuous = g_variant_get_boolean(data);
+			devc->continuous = continuous;
+			sr_info("Continuous mode %s", continuous ? "enabled" : "disabled");
+			return SR_OK;
+		}
+
 	case SR_CONF_PATTERN_MODE:
 		{
 			const char *mode_str = g_variant_get_string(data, NULL);
@@ -700,6 +713,7 @@ static int config_list(uint32_t key, GVariant **data,
 			const uint32_t opts[] = {
 				SR_CONF_DEVICE_MODE | SR_CONF_GET | SR_CONF_SET | SR_CONF_LIST,
 				SR_CONF_LIMIT_SAMPLES | SR_CONF_GET | SR_CONF_SET,
+				SR_CONF_CONTINUOUS | SR_CONF_GET | SR_CONF_SET,
 			};
 			*data = g_variant_new_fixed_array(G_VARIANT_TYPE_UINT32,
 					opts, G_N_ELEMENTS(opts), sizeof(uint32_t));
@@ -789,6 +803,20 @@ static int dev_acquisition_start(const struct sr_dev_inst *sdi)
 	/* Reset sample counter */
 	devc->num_samples = 0;
 	devc->acquisition_running = TRUE;
+
+	/* Enable counter if CNT channel is enabled */
+	for (l = sdi->channels; l; l = l->next) {
+		ch = l->data;
+		if (ch->enabled && strcmp(ch->name, "CNT") == 0) {
+			int ret = labjack_u12_enable_counter(sdi, TRUE);
+			if (ret != SR_OK) {
+				sr_err("Failed to enable counter");
+			} else {
+				sr_info("Counter enabled for acquisition");
+			}
+			break;
+		}
+	}
 
 	/* Send header packet */
 	packet.type = SR_DF_HEADER;

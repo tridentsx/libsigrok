@@ -14,24 +14,32 @@
 
 /* USB communication constants */
 #define LABJACK_USB_INTERFACE     0
-#define LABJACK_USB_TIMEOUT_MS    1000
+#define LABJACK_USB_TIMEOUT_MS    250   /* Reduced timeout for faster retry */
 #define LABJACK_USB_ENDPOINT_OUT  0x02  /* EP 2 OUT from descriptor */
 #define LABJACK_USB_ENDPOINT_IN   0x81  /* EP 1 IN from descriptor */
 
 /* LabJack U12 USB packet structure */
-#define LABJACK_USB_PACKET_SIZE   64  /* U12 uses 64-byte packets */
+#define LABJACK_USB_PACKET_SIZE   8   /* U12 uses 8-byte packets */
 
-/* LabJack U12 command constants */
-#define LABJACK_CMD_RESET         0x99
-#define LABJACK_CMD_AI_SAMPLE     0x01
-#define LABJACK_CMD_AO_UPDATE     0x02
-#define LABJACK_CMD_DIGITAL_IO    0x03
-#define LABJACK_CMD_COUNTER       0x04
-#define LABJACK_CMD_WATCHDOG      0x05
-#define LABJACK_CMD_READ_RAM      0x06
-#define LABJACK_CMD_WRITE_RAM     0x07
-#define LABJACK_CMD_READ_ROM      0x08
-#define LABJACK_CMD_BULK_IO       0x09  /* Combined I/O operations */
+/* LabJack U12 command constants - Official Protocol */
+#define LABJACK_CMD_ANALOG_INPUT     0xF8  /* Analog Input (SE/Diff) */
+#define LABJACK_CMD_ANALOG_OUTPUT    0xF9  /* Analog Output Set */
+#define LABJACK_CMD_DIGITAL_OUTPUT   0xF5  /* Digital Output Set */
+#define LABJACK_CMD_DIGITAL_INPUT    0xF6  /* Digital Input Read / EEPROM Read */
+#define LABJACK_CMD_COUNTER_ENABLE   0xF2  /* Counter Enable/Disable */
+#define LABJACK_CMD_COUNTER_READ     0xF3  /* Counter Read */
+#define LABJACK_CMD_WATCHDOG         0xF4  /* Watchdog Configure */
+#define LABJACK_CMD_EEPROM_READ      0xF6  /* EEPROM Read (same as digital input) */
+#define LABJACK_CMD_EEPROM_WRITE     0xF7  /* EEPROM Write */
+#define LABJACK_CMD_SYSTEM           0xFA  /* System/Special commands */
+
+/* Legacy command names for compatibility */
+#define LABJACK_CMD_RESET            0x99  /* Reset (if supported) */
+#define LABJACK_CMD_AI_SAMPLE        LABJACK_CMD_ANALOG_INPUT
+#define LABJACK_CMD_AO_UPDATE        LABJACK_CMD_ANALOG_OUTPUT
+#define LABJACK_CMD_DIGITAL_IO       LABJACK_CMD_DIGITAL_INPUT
+#define LABJACK_CMD_COUNTER          LABJACK_CMD_COUNTER_READ
+#define LABJACK_CMD_BULK_IO          0x5F  /* Bulk I/O (if supported) */
 
 /* AI sampling modes */
 #define LABJACK_AI_SINGLE_ENDED   0x00
@@ -46,11 +54,21 @@
 #define LABJACK_COUNTER_RESET     0x01
 #define LABJACK_COUNTER_READ      0x02
 
-/* Voltage ranges and conversion */
-#define LABJACK_AI_RANGE_10V      0x00  /* ±10V */
-#define LABJACK_AI_RANGE_5V       0x01  /* ±5V */
-#define LABJACK_AI_RANGE_2V       0x02  /* ±2V */
-#define LABJACK_AI_RANGE_1V       0x03  /* ±1V */
+/* Voltage ranges and conversion - U12 uses gain settings */
+#define LABJACK_AI_GAIN_1X        0x00  /* ±10V (gain x1) */
+#define LABJACK_AI_GAIN_2X        0x01  /* ±5V (gain x2) */
+#define LABJACK_AI_GAIN_4X        0x02  /* ±2.5V (gain x4) */
+#define LABJACK_AI_GAIN_5X        0x03  /* ±2V (gain x5) */
+#define LABJACK_AI_GAIN_8X        0x04  /* ±1.25V (gain x8) */
+#define LABJACK_AI_GAIN_10X       0x05  /* ±1V (gain x10) */
+#define LABJACK_AI_GAIN_16X       0x06  /* ±0.625V (gain x16) */
+#define LABJACK_AI_GAIN_20X       0x07  /* ±0.5V (gain x20) */
+
+/* Legacy range definitions for compatibility */
+#define LABJACK_AI_RANGE_10V      LABJACK_AI_GAIN_1X
+#define LABJACK_AI_RANGE_5V       LABJACK_AI_GAIN_2X
+#define LABJACK_AI_RANGE_2V       LABJACK_AI_GAIN_5X
+#define LABJACK_AI_RANGE_1V       LABJACK_AI_GAIN_10X
 
 #define LABJACK_AI_RESOLUTION_12BIT  4096
 #define LABJACK_AI_MAX_VOLTAGE       10.0
@@ -80,42 +98,68 @@
 #define D_MODE_OUTPUT_LOW_STR      "output-low"
 #define D_MODE_OUTPUT_HIGH_STR     "output-high"
 
-/* USB packet structures */
+/* USB packet structures - Official U12 8-byte protocol */
 struct labjack_u12_packet {
 	uint8_t command;
-	uint8_t data[7];
+	uint8_t data[6];
+	uint8_t checksum;  /* Usually 0 for simple commands */
 };
 
 struct labjack_u12_ai_request {
-	uint8_t command;        /* LABJACK_CMD_AI_SAMPLE */
-	uint8_t channel;        /* AI channel number (0-7) */
-	uint8_t mode;          /* Single-ended or differential */
-	uint8_t range;         /* Voltage range */
-	uint8_t reserved[4];   /* Padding to 8 bytes */
+	uint8_t command;        /* LABJACK_CMD_ANALOG_INPUT (0xF8) */
+	uint8_t channel_config; /* Channel + gain + mode (see below) */
+	uint8_t reserved[5];    /* Must be 0 */
+	uint8_t checksum;       /* Usually 0 */
 };
 
+/* Channel config byte format (byte 1 of AI request):
+ * Bits 0-2: Channel number (0-7)
+ * Bit 3:    Not used (0)
+ * Bits 4-6: Gain setting (0-7, see LABJACK_AI_GAIN_*)
+ * Bit 7:    Mode (0=Single-ended, 1=Differential)
+ */
+#define LABJACK_AI_CHANNEL_MASK   0x07
+#define LABJACK_AI_GAIN_SHIFT     4
+#define LABJACK_AI_GAIN_MASK      0x70
+#define LABJACK_AI_DIFF_BIT       0x80
+
 struct labjack_u12_ai_response {
-	uint8_t command;       /* Echo of command */
-	uint8_t channel;       /* Echo of channel */
-	uint16_t raw_value;    /* 12-bit ADC value */
-	uint8_t status;        /* Status/error code */
+	uint8_t command;       /* Echo of command (0xF8) */
+	uint8_t channel_config; /* Echo of channel config */
+	uint16_t raw_value;    /* 16-bit ADC value (little-endian) */
 	uint8_t reserved[3];   /* Padding */
+	uint8_t checksum;      /* Usually 0 */
 };
 
 struct labjack_u12_ao_request {
-	uint8_t command;       /* LABJACK_CMD_AO_UPDATE */
-	uint8_t channel;       /* AO channel (0-1) */
-	uint16_t raw_value;    /* 12-bit DAC value */
-	uint8_t reserved[4];   /* Padding */
+	uint8_t command;       /* LABJACK_CMD_ANALOG_OUTPUT (0xF9) */
+	uint8_t dac0_value;    /* DAC0 value (0-255) */
+	uint8_t dac1_value;    /* DAC1 value (0-255) */
+	uint8_t reserved[4];   /* Must be 0 */
+	uint8_t checksum;      /* Usually 0 */
 };
 
-struct labjack_u12_digital_io_request {
-	uint8_t command;       /* LABJACK_CMD_DIGITAL_IO */
-	uint8_t io_direction;  /* IO0-IO3 direction bits (1=output, 0=input) */
-	uint8_t io_state;      /* IO0-IO3 output state bits */
-	uint16_t d_direction;  /* D0-D15 direction bits */
-	uint16_t d_state;      /* D0-D15 output state bits */
-	uint8_t reserved;      /* Padding */
+struct labjack_u12_digital_output_request {
+	uint8_t command;       /* LABJACK_CMD_DIGITAL_OUTPUT (0xF5) */
+	uint8_t io_mask;       /* Which IOs to affect (bits 0-3) */
+	uint8_t output_mask;   /* Which IOs to set high (bits 0-3) */
+	uint8_t reserved[4];   /* Must be 0 */
+	uint8_t checksum;      /* Usually 0 */
+};
+
+struct labjack_u12_digital_input_request {
+	uint8_t command;       /* LABJACK_CMD_DIGITAL_INPUT (0xF6) */
+	uint8_t address;       /* 0x00 for digital input, 0-63 for EEPROM */
+	uint8_t reserved[5];   /* Must be 0 */
+	uint8_t checksum;      /* Usually 0 */
+};
+
+struct labjack_u12_digital_input_response {
+	uint8_t command;       /* Echo of command (0xF6) */
+	uint8_t address;       /* Echo of address */
+	uint8_t value;         /* Digital input state or EEPROM value */
+	uint8_t reserved[4];   /* Padding */
+	uint8_t checksum;      /* Usually 0 */
 };
 
 struct labjack_u12_digital_io_response {
@@ -126,16 +170,18 @@ struct labjack_u12_digital_io_response {
 };
 
 struct labjack_u12_counter_request {
-	uint8_t command;       /* LABJACK_CMD_COUNTER */
-	uint8_t operation;     /* RESET or READ */
-	uint8_t reserved[6];   /* Padding */
+	uint8_t command;       /* LABJACK_CMD_COUNTER_READ (0xF3) or COUNTER_ENABLE (0xF2) */
+	uint8_t operation;     /* For enable: 1=enable, 0=disable; For read: ignored */
+	uint8_t reserved[5];   /* Must be 0 */
+	uint8_t checksum;      /* Usually 0 */
 };
 
 struct labjack_u12_counter_response {
 	uint8_t command;       /* Echo of command */
 	uint8_t operation;     /* Echo of operation */
-	uint32_t count;        /* Counter value */
-	uint8_t reserved[2];   /* Padding */
+	uint32_t counter_value; /* 32-bit counter value (little-endian) */
+	uint8_t reserved;      /* Padding */
+	uint8_t checksum;      /* Usually 0 */
 };
 
 struct labjack_u12_bulk_io_request {
@@ -205,6 +251,7 @@ struct dev_context {
 	uint64_t limit_samples;
 	uint64_t num_samples;
 	gboolean acquisition_running;
+	gboolean continuous;
 };
 
 /* Helper functions for channel management */
@@ -231,6 +278,7 @@ SR_PRIV int labjack_u12_read_digital_io(const struct sr_dev_inst *sdi,
 SR_PRIV int labjack_u12_write_digital_io(const struct sr_dev_inst *sdi,
                                          uint32_t io_direction, uint32_t io_state,
                                          uint32_t d_direction, uint32_t d_state);
+SR_PRIV int labjack_u12_enable_counter(const struct sr_dev_inst *sdi, gboolean enable);
 SR_PRIV int labjack_u12_read_counter(const struct sr_dev_inst *sdi, uint32_t *count);
 SR_PRIV int labjack_u12_reset_counter(const struct sr_dev_inst *sdi);
 SR_PRIV int labjack_u12_reset_device(const struct sr_dev_inst *sdi);

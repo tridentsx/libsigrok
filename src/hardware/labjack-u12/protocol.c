@@ -243,32 +243,44 @@ SR_PRIV int labjack_u12_send_command(const struct sr_dev_inst *sdi,
  * @param range Voltage range setting
  * @return Voltage value
  */
-SR_PRIV float labjack_u12_raw_to_voltage(uint16_t raw_value, uint8_t range)
+SR_PRIV float labjack_u12_raw_to_voltage(uint16_t raw_value, uint8_t gain_setting)
 {
 	float max_voltage;
 	
-	/* Determine voltage range */
-	switch (range) {
-	case LABJACK_AI_RANGE_10V:
+	/* Determine voltage range based on gain setting (U12 protocol) */
+	switch (gain_setting) {
+	case LABJACK_AI_GAIN_1X:   /* x1 gain */
 		max_voltage = 10.0;
 		break;
-	case LABJACK_AI_RANGE_5V:
+	case LABJACK_AI_GAIN_2X:   /* x2 gain */
 		max_voltage = 5.0;
 		break;
-	case LABJACK_AI_RANGE_2V:
+	case LABJACK_AI_GAIN_4X:   /* x4 gain */
+		max_voltage = 2.5;
+		break;
+	case LABJACK_AI_GAIN_5X:   /* x5 gain */
 		max_voltage = 2.0;
 		break;
-	case LABJACK_AI_RANGE_1V:
+	case LABJACK_AI_GAIN_8X:   /* x8 gain */
+		max_voltage = 1.25;
+		break;
+	case LABJACK_AI_GAIN_10X:  /* x10 gain */
 		max_voltage = 1.0;
 		break;
+	case LABJACK_AI_GAIN_16X:  /* x16 gain */
+		max_voltage = 0.625;
+		break;
+	case LABJACK_AI_GAIN_20X:  /* x20 gain */
+		max_voltage = 0.5;
+		break;
 	default:
-		max_voltage = 10.0;
+		max_voltage = 10.0;  /* Default to x1 gain */
 		break;
 	}
 	
-	/* Convert 12-bit unsigned to signed voltage */
-	/* LabJack U12 uses bipolar encoding: 0 = -max_voltage, 4095 = +max_voltage */
-	return ((float)raw_value / (LABJACK_AI_RESOLUTION_12BIT - 1)) * (2.0 * max_voltage) - max_voltage;
+	/* Convert 16-bit unsigned to signed voltage */
+	/* U12 uses bipolar encoding: 0 = -max_voltage, 65535 = +max_voltage */
+	return ((float)raw_value / 65535.0) * (2.0 * max_voltage) - max_voltage;
 }
 
 /**
@@ -301,6 +313,8 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 	struct dev_context *devc;
 	struct labjack_u12_ai_request request;
 	struct labjack_u12_ai_response response;
+	uint8_t channel_config;
+	uint16_t raw_value;
 	int ret;
 
 	if (!sdi || !sdi->priv || !voltage || channel < 0 || channel > 7)
@@ -308,13 +322,24 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 
 	devc = sdi->priv;
 
-	/* Prepare AI request */
+	/* Build channel config byte according to U12 protocol:
+	 * Bits 0-2: Channel number (0-7)
+	 * Bit 3:    Not used (0)
+	 * Bits 4-6: Gain setting (0-7)
+	 * Bit 7:    Mode (0=Single-ended, 1=Differential)
+	 */
+	channel_config = (channel & LABJACK_AI_CHANNEL_MASK);
+	channel_config |= ((devc->ai_range[channel] & 0x07) << LABJACK_AI_GAIN_SHIFT);
+	if (devc->ai_mode == AI_MODE_DIFFERENTIAL) {
+		channel_config |= LABJACK_AI_DIFF_BIT;
+	}
+
+	/* Prepare AI request according to U12 protocol */
 	memset(&request, 0, sizeof(request));
-	request.command = LABJACK_CMD_AI_SAMPLE;
-	request.channel = channel;
-	request.mode = (devc->ai_mode == AI_MODE_DIFFERENTIAL) ? 
-	               LABJACK_AI_DIFFERENTIAL : LABJACK_AI_SINGLE_ENDED;
-	request.range = devc->ai_range[channel]; /* Use per-channel range */
+	request.command = LABJACK_CMD_ANALOG_INPUT;  /* 0xF8 */
+	request.channel_config = channel_config;
+	/* Bytes 2-6 are reserved (already zeroed) */
+	request.checksum = 0;  /* Usually 0 for U12 */
 
 	/* Send command and get response */
 	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request,
@@ -322,17 +347,14 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 	if (ret != SR_OK)
 		return ret;
 
-	/* Check for errors */
-	if (response.status != 0) {
-		sr_err("AI read error on channel %d: status 0x%02x", channel, response.status);
-		return SR_ERR;
-	}
+	/* Extract raw value from response (bytes 1-2, little-endian) */
+	raw_value = response.raw_value;
 
-	/* Convert raw value to voltage */
-	*voltage = labjack_u12_raw_to_voltage(response.raw_value, request.range);
+	/* Convert raw value to voltage using gain setting */
+	*voltage = labjack_u12_raw_to_voltage(raw_value, devc->ai_range[channel]);
 
-	sr_spew("AI%d: raw=0x%04x, voltage=%.3fV, range=%d", 
-	        channel, response.raw_value, *voltage, request.range);
+	sr_spew("AI%d: config=0x%02x, raw=0x%04x, voltage=%.3fV", 
+	        channel, channel_config, raw_value, *voltage);
 
 	return SR_OK;
 }
@@ -348,31 +370,47 @@ SR_PRIV int labjack_u12_read_ai_channel(const struct sr_dev_inst *sdi,
 SR_PRIV int labjack_u12_write_ao_channel(const struct sr_dev_inst *sdi,
                                          int channel, float voltage)
 {
+	struct dev_context *devc;
 	struct labjack_u12_ao_request request;
-	struct labjack_u12_packet response;
+	uint8_t dac_value;
 	int ret;
 
-	if (!sdi || channel < 0 || channel > 1)
+	if (!sdi || !sdi->priv || channel < 0 || channel > 1)
 		return SR_ERR_ARG;
+
+	devc = sdi->priv;
 
 	if (voltage < 0.0 || voltage > LABJACK_AO_MAX_VOLTAGE) {
 		sr_err("AO voltage out of range: %.3fV (must be 0-5V)", voltage);
 		return SR_ERR_ARG;
 	}
 
-	/* Prepare AO request */
-	memset(&request, 0, sizeof(request));
-	request.command = LABJACK_CMD_AO_UPDATE;
-	request.channel = channel;
-	request.raw_value = labjack_u12_voltage_to_raw(voltage);
+	/* Convert voltage to 8-bit DAC value (0-255) */
+	dac_value = (uint8_t)(voltage * 255.0 / 5.0);
 
-	/* Send command */
-	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request,
-	                              &response);
+	/* Prepare AO request according to U12 protocol */
+	memset(&request, 0, sizeof(request));
+	request.command = LABJACK_CMD_ANALOG_OUTPUT;  /* 0xF9 */
+	
+	/* Set both DAC values - U12 sets both at once */
+	if (channel == 0) {
+		request.dac0_value = dac_value;
+		request.dac1_value = (uint8_t)(devc->ao_voltage[1] * 255.0 / 5.0);
+	} else {
+		request.dac0_value = (uint8_t)(devc->ao_voltage[0] * 255.0 / 5.0);
+		request.dac1_value = dac_value;
+	}
+	request.checksum = 0;
+
+	/* Send command (no response expected for AO) */
+	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request, NULL);
 	if (ret != SR_OK)
 		return ret;
 
-	sr_spew("AO%d: voltage=%.3fV, raw=0x%04x", channel, voltage, request.raw_value);
+	/* Update stored value */
+	devc->ao_voltage[channel] = voltage;
+
+	sr_spew("AO%d: voltage=%.3fV, dac_value=%d", channel, voltage, dac_value);
 
 	return SR_OK;
 }
@@ -388,19 +426,18 @@ SR_PRIV int labjack_u12_write_ao_channel(const struct sr_dev_inst *sdi,
 SR_PRIV int labjack_u12_read_digital_io(const struct sr_dev_inst *sdi,
                                         uint32_t *io_state, uint32_t *d_state)
 {
-	struct labjack_u12_digital_io_request request;
-	struct labjack_u12_digital_io_response response;
+	struct labjack_u12_digital_input_request request;
+	struct labjack_u12_digital_input_response response;
 	int ret;
 
 	if (!sdi || !io_state || !d_state)
 		return SR_ERR_ARG;
 
-	/* Prepare digital I/O read request */
+	/* Prepare digital input read request according to U12 protocol */
 	memset(&request, 0, sizeof(request));
-	request.command = LABJACK_CMD_DIGITAL_IO;
-	/* Set all as inputs for reading */
-	request.io_direction = 0x00;  /* All inputs */
-	request.d_direction = 0x0000; /* All inputs */
+	request.command = LABJACK_CMD_DIGITAL_INPUT;  /* 0xF6 */
+	request.address = 0x00;  /* 0x00 = read digital inputs, not EEPROM */
+	request.checksum = 0;
 
 	/* Send command and get response */
 	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request,
@@ -408,10 +445,11 @@ SR_PRIV int labjack_u12_read_digital_io(const struct sr_dev_inst *sdi,
 	if (ret != SR_OK)
 		return ret;
 
-	*io_state = response.io_state & 0x0F;  /* Only bits 0-3 */
-	*d_state = response.d_state & 0xFFFF;  /* All 16 bits */
+	/* U12 returns IO state in response.value (bits 0-3 for IO0-IO3) */
+	*io_state = response.value & 0x0F;  /* Only bits 0-3 for IO0-IO3 */
+	*d_state = 0;  /* U12 doesn't have D0-D15 like newer models */
 
-	sr_spew("Digital I/O read: IO=0x%02x, D=0x%04x", *io_state, *d_state);
+	sr_spew("Digital I/O read: IO=0x%02x", *io_state);
 
 	return SR_OK;
 }
@@ -431,7 +469,7 @@ SR_PRIV int labjack_u12_write_digital_io(const struct sr_dev_inst *sdi,
                                          uint32_t d_direction, uint32_t d_state)
 {
 	struct dev_context *devc;
-	struct labjack_u12_digital_io_request request;
+	struct labjack_u12_digital_output_request request;
 	struct labjack_u12_digital_io_response response;
 	int ret;
 
@@ -440,17 +478,15 @@ SR_PRIV int labjack_u12_write_digital_io(const struct sr_dev_inst *sdi,
 
 	devc = sdi->priv;
 
-	/* Prepare digital I/O write request */
+	/* Prepare digital I/O write request according to U12 protocol */
 	memset(&request, 0, sizeof(request));
-	request.command = LABJACK_CMD_DIGITAL_IO;
-	request.io_direction = io_direction & 0x0F;
-	request.io_state = io_state & 0x0F;
-	request.d_direction = d_direction & 0xFFFF;
-	request.d_state = d_state & 0xFFFF;
+	request.command = LABJACK_CMD_DIGITAL_OUTPUT;  /* 0xF5 */
+	request.io_mask = io_direction & 0x0F;  /* Which IOs to affect (IO0-IO3) */
+	request.output_mask = io_state & 0x0F;  /* Which IOs to set high */
+	request.checksum = 0;
 
-	/* Send command and get response */
-	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request,
-	                              (struct labjack_u12_packet *)&response);
+	/* Send command (no response expected for digital output) */
+	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request, NULL);
 	if (ret != SR_OK)
 		return ret;
 
@@ -484,6 +520,37 @@ SR_PRIV int labjack_u12_write_digital_io(const struct sr_dev_inst *sdi,
  * @param count Pointer to store counter value
  * @return SR_OK on success, SR_ERR on failure
  */
+/**
+ * Enable/disable counter on LabJack U12.
+ * 
+ * @param sdi Device instance
+ * @param enable TRUE to enable, FALSE to disable
+ * @return SR_OK on success, SR_ERR on failure
+ */
+SR_PRIV int labjack_u12_enable_counter(const struct sr_dev_inst *sdi, gboolean enable)
+{
+	struct labjack_u12_counter_request request;
+	int ret;
+
+	if (!sdi)
+		return SR_ERR_ARG;
+
+	/* Prepare counter enable request according to U12 protocol */
+	memset(&request, 0, sizeof(request));
+	request.command = LABJACK_CMD_COUNTER_ENABLE;  /* 0xF2 */
+	request.operation = enable ? 1 : 0;  /* 1=enable, 0=disable */
+	request.checksum = 0;
+
+	/* Send command (no response expected) */
+	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request, NULL);
+	if (ret != SR_OK)
+		return ret;
+
+	sr_spew("Counter %s", enable ? "enabled" : "disabled");
+
+	return SR_OK;
+}
+
 SR_PRIV int labjack_u12_read_counter(const struct sr_dev_inst *sdi, uint32_t *count)
 {
 	struct dev_context *devc;
@@ -496,10 +563,11 @@ SR_PRIV int labjack_u12_read_counter(const struct sr_dev_inst *sdi, uint32_t *co
 
 	devc = sdi->priv;
 
-	/* Prepare counter read request */
+	/* Prepare counter read request according to U12 protocol */
 	memset(&request, 0, sizeof(request));
-	request.command = LABJACK_CMD_COUNTER;
-	request.operation = LABJACK_COUNTER_READ;
+	request.command = LABJACK_CMD_COUNTER_READ;  /* 0xF3 */
+	request.operation = 0;  /* Ignored for read */
+	request.checksum = 0;
 
 	/* Send command and get response */
 	ret = labjack_u12_send_command(sdi, (struct labjack_u12_packet *)&request,
@@ -507,7 +575,8 @@ SR_PRIV int labjack_u12_read_counter(const struct sr_dev_inst *sdi, uint32_t *co
 	if (ret != SR_OK)
 		return ret;
 
-	*count = response.count;
+	/* Extract 32-bit counter value (little-endian in bytes 0-3) */
+	*count = response.counter_value;
 	devc->counter_value = *count;
 	devc->counter_timestamp = g_get_monotonic_time();
 
@@ -807,13 +876,24 @@ SR_PRIV int labjack_u12_receive_data(int fd, int revents, void *cb_data)
 				continue;
 
 			if (ch->index < 8) {
-				/* AI channel */
-				ret = labjack_u12_read_ai_channel(sdi, ch->index, &voltage);
+				/* AI channel - try multiple times with shorter timeout */
+				voltage = NAN;
+				for (int retry = 0; retry < 3; retry++) {
+					ret = labjack_u12_read_ai_channel(sdi, ch->index, &voltage);
+					if (ret == SR_OK) {
+						break;
+					}
+					/* Short delay between retries */
+					g_usleep(10000); /* 10ms */
+				}
 				if (ret != SR_OK) {
-					sr_err("Failed to read AI%d: %d", ch->index, ret);
+					sr_spew("Failed to read AI%d after 3 retries, using NAN", ch->index);
 					voltage = NAN;
 				}
 				analog_data[analog_index++] = voltage;
+				
+				/* Small delay between channels to avoid overwhelming device */
+				g_usleep(5000); /* 5ms */
 			} else if (strcmp(ch->name, "CNT") == 0) {
 				/* Counter channel */
 				ret = labjack_u12_read_counter(sdi, &counter_value);
