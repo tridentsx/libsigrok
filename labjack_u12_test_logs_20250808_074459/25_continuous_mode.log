@@ -1,0 +1,43 @@
+Command: timeout 10s sigrok-cli -d labjack-u12 --channels AI0 --continuous -l 5
+Timestamp: Fri Aug  8 07:45:32 AM CEST 2025
+========================================
+sr: [00:00.000017] log: libsigrok loglevel set to 5.
+sr: [00:00.000027] backend: libsigrok 0.6.0-git-13433787/4:0:0.
+sr: [00:00.000059] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, bluez 5.72, libftdi 1.5.
+sr: [00:00.000066] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000072] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000076] backend: Firmware search paths:
+sr: [00:00.000101] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000105] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000109] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000113] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000117] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000121] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000125] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000144] backend: Sanity-checking all drivers.
+sr: [00:00.000155] backend: Sanity-checking all input modules.
+sr: [00:00.000161] backend: Sanity-checking all output modules.
+sr: [00:00.000173] backend: Sanity-checking all transform modules.
+sr: [00:00.011158] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.011219] device: labjack-u12: Opening device instance.
+sr: [00:00.011246] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.011262] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.011271] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.011279] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.011287] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.127762] labjack-u12: Successfully claimed interface 0
+sr: [00:00.127809] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.130954] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.231421] labjack-u12: LabJack U12 device reset
+sr: [00:00.231438] labjack-u12: LabJack U12 device opened successfully.
+sr: [00:00.231517] session: Using thread-default main context.
+sr: [00:00.231527] session: Starting.
+sr: [00:00.231536] hwdriver: labjack-u12: Starting acquisition.
+sr: [00:00.231553] session: bus: Received SR_DF_HEADER packet.
+cli: Received SR_DF_HEADER.
+sr: [00:00.231638] session: bus: Received SR_DF_META packet.
+cli: Received SR_DF_META.
+cli: Got samplerate 1 Hz.
+META samplerate: 1
+sr: [00:00.231685] labjack-u12: LabJack U12 acquisition started (poll mode, 2 channels enabled).
+RESULT: FAIL

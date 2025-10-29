@@ -1,0 +1,22 @@
+Command: sigrok-cli -d labjack-u12 --scan -l 5
+Timestamp: Fri Aug  8 08:08:13 CEST 2025
+========================================
+sr: [00:00.000045] log: libsigrok loglevel set to 5.
+sr: [00:00.000056] backend: libsigrok 0.6.0-git-13433787-dirty/4:0:0.
+sr: [00:00.000096] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, hidapi 0.14.0, bluez 5.72, libftdi 1.5.
+sr: [00:00.000101] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000104] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000106] backend: Firmware search paths:
+sr: [00:00.000129] backend:  - /home/epkcfsm/.local/share/sigrok-firmware
+sr: [00:00.000130] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000132] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000134] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000135] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000150] backend: Sanity-checking all drivers.
+sr: [00:00.000157] backend: Sanity-checking all input modules.
+sr: [00:00.000160] backend: Sanity-checking all output modules.
+sr: [00:00.000166] backend: Sanity-checking all transform modules.
+srd: libsigrokdecode loglevel set to 5.
+sr: [00:00.000737] hwdriver: Scan found 0 devices (labjack-u12).
+sr: [00:00.000740] hwdriver: Cleaning up all drivers.
+RESULT: PASS

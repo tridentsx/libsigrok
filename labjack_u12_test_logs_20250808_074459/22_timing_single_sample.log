@@ -1,0 +1,74 @@
+Command: time sigrok-cli -d labjack-u12 --channels AI0 --samples 1 -l 5
+Timestamp: Fri Aug  8 07:45:30 AM CEST 2025
+========================================
+sr: [00:00.000026] log: libsigrok loglevel set to 5.
+sr: [00:00.000039] backend: libsigrok 0.6.0-git-13433787/4:0:0.
+sr: [00:00.000077] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, bluez 5.72, libftdi 1.5.
+sr: [00:00.000085] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000090] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000094] backend: Firmware search paths:
+sr: [00:00.000111] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000115] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000119] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000122] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000126] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000129] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000133] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000158] backend: Sanity-checking all drivers.
+sr: [00:00.000181] backend: Sanity-checking all input modules.
+sr: [00:00.000185] backend: Sanity-checking all output modules.
+sr: [00:00.000194] backend: Sanity-checking all transform modules.
+sr: [00:00.010648] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.010687] device: labjack-u12: Opening device instance.
+sr: [00:00.010719] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.010739] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.010747] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010755] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010763] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.126711] labjack-u12: Successfully claimed interface 0
+sr: [00:00.126741] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.132467] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.232946] labjack-u12: LabJack U12 device reset
+sr: [00:00.232977] labjack-u12: LabJack U12 device opened successfully.
+sr: [00:00.233087] hwdriver: sr_config_set(): key 50001 (limit_samples) sdi 0x63fe4a31cc70 cg NULL -> uint64 1
+sr: [00:00.233106] labjack-u12: Sample limit set to 1
+sr: [00:00.233163] session: Using thread-default main context.
+sr: [00:00.233178] session: Starting.
+sr: [00:00.233192] hwdriver: labjack-u12: Starting acquisition.
+sr: [00:00.233219] session: bus: Received SR_DF_HEADER packet.
+cli: Received SR_DF_HEADER.
+sr: [00:00.233316] session: bus: Received SR_DF_META packet.
+cli: Received SR_DF_META.
+cli: Got samplerate 1 Hz.
+META limit_samples: 1
+sr: [00:00.233389] labjack-u12: LabJack U12 acquisition started (poll mode, 2 channels enabled).
+sr: [00:00.333962] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.340566] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.340594] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.348568] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.348597] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.348614] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.348632] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.353831] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.356294] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.356323] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.364563] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.364591] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.364608] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.364624] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.369831] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+sr: [00:00.434498] hwdriver: labjack-u12: Stopping acquisition.
+sr: [00:00.434534] session: bus: Received SR_DF_END packet.
+cli: Received SR_DF_END.
+sr: [00:00.434600] labjack-u12: LabJack U12 acquisition stopped. Collected 1 samples.
+sr: [00:00.434626] session: fd_source_finalize: key 0xffffffffffffffff
+sr: [00:00.434668] session: Stopped.
+sr: [00:00.434705] hwdriver: Cleaning up all drivers.
+
+real	0m0.441s
+user	0m0.016s
+sys	0m0.021s
+RESULT: PASS

@@ -1,0 +1,8 @@
+Command: sigrok-cli -d labjack-u12 --show
+Timestamp: Fri Aug  8 07:54:32 CEST 2025
+========================================
+No devices found.
+Driver functions:
+    Device mode
+    Sample limit
+RESULT: FAIL

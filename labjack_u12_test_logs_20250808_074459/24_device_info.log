@@ -1,0 +1,55 @@
+Command: sigrok-cli -d labjack-u12 --show -l 5
+Timestamp: Fri Aug  8 07:45:32 AM CEST 2025
+========================================
+sr: [00:00.000018] log: libsigrok loglevel set to 5.
+sr: [00:00.000029] backend: libsigrok 0.6.0-git-13433787/4:0:0.
+sr: [00:00.000064] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, bluez 5.72, libftdi 1.5.
+sr: [00:00.000074] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000079] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000083] backend: Firmware search paths:
+sr: [00:00.000114] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000117] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000121] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000125] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000128] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000132] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000136] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000152] backend: Sanity-checking all drivers.
+sr: [00:00.000159] backend: Sanity-checking all input modules.
+sr: [00:00.000164] backend: Sanity-checking all output modules.
+sr: [00:00.000172] backend: Sanity-checking all transform modules.
+sr: [00:00.009780] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.009925] device: labjack-u12: Opening device instance.
+sr: [00:00.009969] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.010015] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.010022] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010029] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010036] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.127908] labjack-u12: Successfully claimed interface 0
+sr: [00:00.127938] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.132523] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.232777] labjack-u12: LabJack U12 device reset
+sr: [00:00.232842] labjack-u12: LabJack U12 device opened successfully.
+sr: [00:00.232978] hwdriver: sr_config_get(): key 50005 (device_mode) sdi 0x5fbd493db560 cg NULL -> 'single-ended'
+sr: [00:00.233021] hwdriver: sr_config_list(): key 50005 (device_mode) sdi 0x5fbd493db560 cg NULL -> ['single-ended', 'differential']
+sr: [00:00.233071] hwdriver: sr_config_get(): key 50001 (limit_samples) sdi 0x5fbd493db560 cg NULL -> uint64 0
+sr: [00:00.233108] hwdriver: sr_config_get(): key 50003 (continuous) sdi 0x5fbd493db560 cg NULL -> false
+sr: [00:00.233132] device: labjack-u12: Closing device instance.
+sr: [00:00.233150] hwdriver: Cleaning up all drivers.
+Driver functions:
+    Device mode
+    Sample limit
+    Continuous sampling
+labjack-u12 - LabJack U12 with 62 channels: AI0 AI0 AI1 AI1 AI2 AI2 AI3 AI3 AI4 AI4 AI5 AI5 AI6 AI6 AI7 AI7 AO0 AO0 AO1 AO1 IO0 IO0 IO1 IO1 IO2 IO2 IO3 IO3 D0 D0 D1 D1 D2 D2 D3 D3 D4 D4 D5 D5 D6 D6 D7 D7 D8 D8 D9 D9 D10 D10 D11 D11 D12 D12 D13 D13 D14 D14 D15 D15 CNT CNT
+Channel groups:
+    AI0+AI1: channels AI0 AI0
+    AI2+AI3: channels AI1 AI1
+    AI4+AI5: channels AI2 AI2
+    AI6+AI7: channels AI3 AI3
+    AO0: channel AO0
+    AO1: channel AO1
+Supported configuration options across all channel groups:
+    device_mode: single-ended (current), differential
+    limit_samples: 0 (current)
+    continuous: on, off (current)
+RESULT: PASS

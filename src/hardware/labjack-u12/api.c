@@ -18,7 +18,9 @@
  */
 
 #include <config.h>
+#ifndef _MSC_VER
 #include <sys/time.h>
+#endif
 #include <inttypes.h>
 #include "protocol.h"
 #include <libusb.h>

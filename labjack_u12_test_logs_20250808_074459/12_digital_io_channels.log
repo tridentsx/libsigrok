@@ -1,0 +1,152 @@
+Command: sigrok-cli -d labjack-u12 --channels IO0,IO1,IO2,IO3 --samples 10 -l 5
+Timestamp: Fri Aug  8 07:45:07 AM CEST 2025
+========================================
+sr: [00:00.000027] log: libsigrok loglevel set to 5.
+sr: [00:00.000040] backend: libsigrok 0.6.0-git-13433787/4:0:0.
+sr: [00:00.000082] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, bluez 5.72, libftdi 1.5.
+sr: [00:00.000095] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000104] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000108] backend: Firmware search paths:
+sr: [00:00.000144] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000148] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000152] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000156] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000160] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000164] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000168] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000188] backend: Sanity-checking all drivers.
+sr: [00:00.000198] backend: Sanity-checking all input modules.
+sr: [00:00.000204] backend: Sanity-checking all output modules.
+sr: [00:00.000214] backend: Sanity-checking all transform modules.
+sr: [00:00.010700] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.010738] device: labjack-u12: Opening device instance.
+sr: [00:00.010801] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.010829] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.010836] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010843] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010850] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.127387] labjack-u12: Successfully claimed interface 0
+sr: [00:00.127400] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.133811] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.233987] labjack-u12: LabJack U12 device reset
+sr: [00:00.234037] labjack-u12: LabJack U12 device opened successfully.
+sr: [00:00.234139] hwdriver: sr_config_set(): key 50001 (limit_samples) sdi 0x581390a4fc70 cg NULL -> uint64 10
+sr: [00:00.234160] labjack-u12: Sample limit set to 10
+sr: [00:00.234222] session: Using thread-default main context.
+sr: [00:00.234241] session: Starting.
+sr: [00:00.234257] hwdriver: labjack-u12: Starting acquisition.
+sr: [00:00.234287] session: bus: Received SR_DF_HEADER packet.
+cli: Received SR_DF_HEADER.
+sr: [00:00.234390] session: bus: Received SR_DF_META packet.
+cli: Received SR_DF_META.
+cli: Got samplerate 1 Hz.
+META limit_samples: 10
+sr: [00:00.234481] labjack-u12: LabJack U12 acquisition started (poll mode, 8 channels enabled).
+sr: [00:00.335071] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.341859] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.341891] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.349859] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.349890] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.349909] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.349927] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.349950] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+libsigrok 0.6.0-git-13433787
+Acquisition with 8/62 channels at 1 Hz
+sr: [00:00.435598] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.437691] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.437723] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.445688] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.445720] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.445739] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.445756] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.445792] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:00.536389] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.541883] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.541914] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.549871] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.549902] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.549921] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.549938] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.549962] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:00.637595] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.645882] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.645914] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.653875] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.653906] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.653925] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.653942] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.653966] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:00.738567] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.741591] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.741623] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.749692] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.749723] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.749742] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.749760] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.749801] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:00.839362] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.845875] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.845906] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.853846] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.853877] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.853897] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.853914] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.853937] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:00.940548] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.941812] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.941844] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.949893] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.949925] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.949944] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.949962] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:00.949984] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:01.041605] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.045879] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.045910] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.053894] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.053926] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.053945] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.053962] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:01.053985] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:01.142606] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.149629] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.149658] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.157852] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.157883] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.157903] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.157946] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:01.157969] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:01.243596] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.245851] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.245881] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.253890] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.253921] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.253940] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.253957] labjack-u12: Digital I/O read: IO=0x00
+sr: [00:01.253980] session: bus: Received SR_DF_LOGIC packet (1 bytes, unitsize = 1).
+cli: Received SR_DF_LOGIC (1 bytes, unitsize = 1).
+sr: [00:01.344608] hwdriver: labjack-u12: Stopping acquisition.
+sr: [00:01.344649] session: bus: Received SR_DF_END packet.
+IO0:00000000 00
+IO0:00000000 00
+IO1:00000000 00
+IO1:00000000 00
+IO2:00000000 00
+IO2:00000000 00
+IO3:00000000 00
+IO3:00000000 00
+cli: Received SR_DF_END.
+sr: [00:01.344706] labjack-u12: LabJack U12 acquisition stopped. Collected 10 samples.
+sr: [00:01.344739] session: fd_source_finalize: key 0xffffffffffffffff
+sr: [00:01.344782] session: Stopped.
+sr: [00:01.344821] hwdriver: Cleaning up all drivers.
+RESULT: PASS

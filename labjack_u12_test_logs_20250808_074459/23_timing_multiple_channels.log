@@ -1,0 +1,716 @@
+Command: time sigrok-cli -d labjack-u12 --channels AI0,AI1,AI2,AI3 --samples 10 -l 5
+Timestamp: Fri Aug  8 07:45:30 AM CEST 2025
+========================================
+sr: [00:00.000019] log: libsigrok loglevel set to 5.
+sr: [00:00.000029] backend: libsigrok 0.6.0-git-13433787/4:0:0.
+sr: [00:00.000063] backend: Libs: glib 2.80.0 (rt: 2.80.0/8000:0), zlib 1.3, libzip 1.7.3, minilzo 2.10, libserialport 0.1.1/1:0:1 (rt: 0.1.1/1:0:1), libusb-1.0 1.0.27.11882 API 0x0100010a, bluez 5.72, libftdi 1.5.
+sr: [00:00.000070] backend: Host: x86_64-pc-linux-gnu, little-endian.
+sr: [00:00.000075] backend: SCPI backends: TCP, serial, USBTMC.
+sr: [00:00.000079] backend: Firmware search paths:
+sr: [00:00.000099] backend:  - /home/tridentsx/.local/share/sigrok-firmware
+sr: [00:00.000102] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000106] backend:  - /usr/share/ubuntu/sigrok-firmware
+sr: [00:00.000110] backend:  - /usr/share/gnome/sigrok-firmware
+sr: [00:00.000113] backend:  - /usr/local/share/sigrok-firmware
+sr: [00:00.000117] backend:  - /usr/share/sigrok-firmware
+sr: [00:00.000121] backend:  - /var/lib/snapd/desktop/sigrok-firmware
+sr: [00:00.000143] backend: Sanity-checking all drivers.
+sr: [00:00.000160] backend: Sanity-checking all input modules.
+sr: [00:00.000201] backend: Sanity-checking all output modules.
+sr: [00:00.000228] backend: Sanity-checking all transform modules.
+sr: [00:00.010510] hwdriver: Scan found 1 devices (labjack-u12).
+sr: [00:00.010533] device: labjack-u12: Opening device instance.
+sr: [00:00.010556] labjack-u12: Attempting to unbind HID driver from LabJack U12 (bus 1, address 4)
+sr: [00:00.010587] labjack-u12: Failed to unbind using path 1-4:1.0
+sr: [00:00.010595] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010603] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.010610] labjack-u12: Failed to unbind using path 1-1:1.0
+sr: [00:00.126241] labjack-u12: Successfully claimed interface 0
+sr: [00:00.126265] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.129837] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.230361] labjack-u12: LabJack U12 device reset
+sr: [00:00.230393] labjack-u12: LabJack U12 device opened successfully.
+sr: [00:00.230493] hwdriver: sr_config_set(): key 50001 (limit_samples) sdi 0x61b5be0f7c70 cg NULL -> uint64 10
+sr: [00:00.230514] labjack-u12: Sample limit set to 10
+sr: [00:00.230586] session: Using thread-default main context.
+sr: [00:00.230603] session: Starting.
+sr: [00:00.230619] hwdriver: labjack-u12: Starting acquisition.
+sr: [00:00.230649] session: bus: Received SR_DF_HEADER packet.
+cli: Received SR_DF_HEADER.
+sr: [00:00.230747] session: bus: Received SR_DF_META packet.
+cli: Received SR_DF_META.
+cli: Got samplerate 1 Hz.
+META limit_samples: 10
+sr: [00:00.230827] labjack-u12: LabJack U12 acquisition started (poll mode, 8 channels enabled).
+sr: [00:00.331409] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.337826] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.337858] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.345882] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.345914] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.345933] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.345951] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.351201] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.353598] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.353630] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.361852] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.361883] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.361903] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.361920] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.367129] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.369585] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.369616] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.377871] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.377930] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.377950] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.377968] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.383249] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.385578] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.385610] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.393852] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.393881] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.393898] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.393914] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.399128] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.401556] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.401589] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.409836] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.409868] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.409887] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.409905] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.415134] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.417606] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.417635] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.425839] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.425871] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.425890] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.425908] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.431123] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.433584] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.433616] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.441600] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.441631] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.441651] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.441669] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.446908] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.449671] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.449703] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.457813] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.457842] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.457859] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.457874] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.463131] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:00.463340] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.465598] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.465628] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.473567] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.473596] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.473613] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.473628] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.478882] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.481596] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.481629] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.489857] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.489886] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.489903] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.489919] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.495127] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.497611] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.497643] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.505841] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.505873] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.505892] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.505910] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.511142] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.513679] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.513717] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.521585] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.521616] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.521635] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.521653] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.526897] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.529586] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.529618] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.537851] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.537883] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.537902] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.537920] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.543130] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.545583] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.545615] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.553860] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.553892] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.553911] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.553929] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.559146] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.561591] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.561623] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.569858] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.569889] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.569908] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.569926] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.575162] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.577616] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.577648] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.585843] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.585875] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.585894] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.585912] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.591131] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:00.591269] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.593607] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.593639] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.601841] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.601872] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.601892] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.601909] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.607138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.609599] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.609631] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.617851] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.617880] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.617897] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.617913] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.623122] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.625575] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.625607] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.633849] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.633880] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.633900] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.633917] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.639128] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.641616] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.641648] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.649872] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.649903] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.649923] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.649940] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.655152] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.657600] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.657632] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.665847] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.665878] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.665898] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.665915] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.671128] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.673601] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.673633] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.681860] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.681891] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.681910] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.681928] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.687138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.689599] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.689631] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.697851] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.697882] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.697902] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.697919] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.703129] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.705589] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.705621] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.713875] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.713906] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.713926] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.713943] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.719161] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:00.719294] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.721586] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.721617] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.729846] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.729877] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.729897] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.729914] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.735150] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.737603] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.737635] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.745843] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.745875] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.745894] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.745912] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.751185] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.753612] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.753644] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.761833] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.761864] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.761884] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.761902] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.767126] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.769591] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.769623] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.777866] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.777899] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.777918] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.777936] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.783145] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.785608] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.785640] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.793854] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.793886] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.793905] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.793922] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.799134] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.801567] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.801598] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.809851] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.809882] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.809902] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.809919] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.815128] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.817584] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.817615] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.825854] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.825886] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.825906] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.825923] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.831137] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.833587] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.833619] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.841849] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.841880] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.841900] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.841917] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.847135] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:00.847289] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.849567] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.849595] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.857837] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.857869] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.857888] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.857906] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.863130] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.865584] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.865616] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.873848] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.873880] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.873899] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.873941] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.879151] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.881581] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.881613] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.889850] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.889881] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.889901] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.889919] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.895131] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.897591] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.897623] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.905847] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.905878] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.905898] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.905915] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:00.911133] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.913589] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.913621] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.921850] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.921882] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.921901] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.921919] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.927133] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.929596] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.929628] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.937859] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.937890] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.937910] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.937927] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:00.943138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.945578] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.945610] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.953858] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.953889] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.953908] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.953926] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.959138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.961608] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.961640] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.969904] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.969935] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.969954] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.969971] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:00.975236] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:00.975358] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.977594] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.977626] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:00.985878] labjack-u12: USB read successful: 8 bytes
+sr: [00:00.985910] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:00.985930] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:00.985947] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:00.991157] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:00.993588] labjack-u12: USB write successful: 8 bytes
+sr: [00:00.993620] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.001853] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.001885] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.001930] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.001947] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.007229] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.009600] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.009635] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.017847] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.017878] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.017898] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.017915] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.023133] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.025589] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.025637] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.033863] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.033894] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.033914] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.033931] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.039143] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.041584] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.041616] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.049843] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.049875] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.049894] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.049912] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.055144] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.057604] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.057636] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.065852] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.065883] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.065903] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.065921] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.071134] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.073587] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.073618] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.081841] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.081872] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.081891] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.081909] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.087135] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.089593] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.089625] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.097867] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.097899] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.097918] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.097936] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.103218] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:01.103321] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.105606] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.105652] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.113852] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.113884] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.113903] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.113921] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.119138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.121592] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.121623] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.129851] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.129883] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.129902] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.129920] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.135151] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.137590] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.137622] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.145850] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.145881] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.145901] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.145918] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.151150] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.153593] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.153625] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.161855] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.161887] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.161906] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.161924] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.167138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.169593] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.169624] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.177861] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.177893] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.177912] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.177930] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.183142] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.185608] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.185640] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.193746] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.193778] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.193798] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.193815] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.199072] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.201585] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.201617] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.209751] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.209784] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.209804] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.209822] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.215069] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.217607] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.217639] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.225579] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.225611] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.225630] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.225648] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.230911] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:01.231012] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.233593] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.233625] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.241756] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.241797] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.241817] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.241834] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.247089] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.249679] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.249738] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.257868] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.257900] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.257919] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.257936] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.263150] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.265586] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.265618] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.273853] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.273884] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.273904] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.273921] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.279130] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.281608] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.281640] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.289881] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.289912] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.289932] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.289950] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.295225] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.297603] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.297655] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.305868] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.305900] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.305919] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.305937] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.311150] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.313590] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.313621] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.321862] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.321893] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.321913] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.321930] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.327143] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.329611] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.329642] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.337854] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.337885] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.337905] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.337922] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.343132] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.345637] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.345679] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.353885] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.353917] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.353936] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.353954] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.359215] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:01.359318] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.361602] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.361650] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.369855] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.369887] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.369907] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.369924] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.375157] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.377597] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.377629] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.385879] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.385910] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.385930] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.385947] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.391159] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.393693] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.393735] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.401864] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.401894] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.401913] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.401931] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.407142] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.409592] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.409624] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.417865] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.417897] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.417916] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.417934] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.423146] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.425601] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.425651] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.433856] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.433884] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.433902] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.433918] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.439138] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.441603] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.441635] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.449583] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.449614] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.449634] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.449652] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.454844] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.457450] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.457456] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.465510] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.465521] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.465525] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.465530] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.470711] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.473504] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.473517] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.481793] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.481822] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.481830] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.481837] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.487062] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:01.487118] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.489559] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.489576] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.497859] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.497884] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.497898] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.497931] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.503141] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.505617] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.505649] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.513852] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.513883] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.513903] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.513921] labjack-u12: AI0: config=0x00, raw=0x0000, voltage=-10.000V
+sr: [00:01.519133] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.521619] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.521651] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.529858] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.529889] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.529909] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.529926] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.535184] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.537590] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.537622] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.545869] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.545902] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.545921] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.545939] labjack-u12: AI1: config=0x01, raw=0x0000, voltage=-10.000V
+sr: [00:01.551193] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.553598] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.553630] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.561872] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.561904] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.561923] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.561941] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.567208] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.569596] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.569627] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.577887] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.577918] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.577938] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.577955] labjack-u12: AI2: config=0x02, raw=0x0000, voltage=-10.000V
+sr: [00:01.583185] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.585602] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.585633] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.593883] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.593915] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.593934] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.593952] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.599162] labjack-u12: USB write: 8 bytes to endpoint 0x02
+sr: [00:01.601594] labjack-u12: USB write successful: 8 bytes
+sr: [00:01.601625] labjack-u12: USB read: 8 bytes from endpoint 0x81
+sr: [00:01.609766] labjack-u12: USB read successful: 8 bytes
+sr: [00:01.609815] labjack-u12: Response packet: 00 00 00 00 ff 41 00 3a
+sr: [00:01.609834] labjack-u12: U12 protocol: No command echo verification needed
+sr: [00:01.609852] labjack-u12: AI3: config=0x03, raw=0x0000, voltage=-10.000V
+sr: [00:01.615107] session: bus: Received SR_DF_ANALOG packet (1 samples).
+cli: Received SR_DF_ANALOG (1 samples).
+AI0: -10.000 V
+AI0: -10.000 V
+AI1: -10.000 V
+AI1: -10.000 V
+AI2: -10.000 V
+AI2: -10.000 V
+AI3: -10.000 V
+AI3: -10.000 V
+sr: [00:01.615234] hwdriver: labjack-u12: Stopping acquisition.
+sr: [00:01.615275] session: bus: Received SR_DF_END packet.
+cli: Received SR_DF_END.
+sr: [00:01.615308] labjack-u12: LabJack U12 acquisition stopped. Collected 10 samples.
+sr: [00:01.615328] session: fd_source_finalize: key 0xffffffffffffffff
+sr: [00:01.615394] session: Stopped.
+sr: [00:01.615434] hwdriver: Cleaning up all drivers.
+
+real	0m1.622s
+user	0m0.048s
+sys	0m0.041s
+RESULT: PASS

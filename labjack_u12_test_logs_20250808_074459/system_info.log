@@ -1,0 +1,100 @@
+=== SYSTEM INFO ===
+Date: Fri Aug  8 07:44:59 AM CEST 2025
+Hostname: LabEliteDesk-800
+Kernel: Linux LabEliteDesk-800 6.14.0-27-generic #27~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Jul 22 17:38:49 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+Distribution: Description:	Ubuntu 24.04.3 LTS
+USB Utils Version: lsusb (usbutils) 017
+
+=== USB DEVICES ===
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 413c:301c Dell Computer Corp. Dell Universal Receiver
+Bus 001 Device 003: ID 256f:c652 3Dconnexion Universal Receiver
+Bus 001 Device 004: ID 0cd5:0001 LabJack Corporation Labjack U12
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+=== LABJACK U12 USB DETAILS ===
+
+Bus 001 Device 004: ID 0cd5:0001 LabJack Corporation Labjack U12
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass            0 [unknown]
+  bDeviceSubClass         0 [unknown]
+  bDeviceProtocol         0 
+  bMaxPacketSize0         8
+  idVendor           0x0cd5 LabJack Corporation
+  idProduct          0x0001 Labjack U12
+  bcdDevice            5.f6
+  iManufacturer           1 LabJack
+  iProduct                2 Labjack U12
+  iSerial                 0 
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0029
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0 
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0 
+      iInterface              0 
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               1.10
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      75
+          Report Descriptors: 
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0008  1x 8 bytes
+        bInterval              10
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0008  1x 8 bytes
+        bInterval              10
+Device Status:     0x0000
+  (Bus Powered)
+
+=== USB DEVICE TREE ===
+
+=== HID DEVICES ===
+crw------- 1 root root 239, 0 Aug  7 22:14 /dev/hidraw0
+crw------- 1 root root 239, 1 Aug  7 22:14 /dev/hidraw1
+crw------- 1 root root 239, 2 Aug  7 22:14 /dev/hidraw2
+crw------- 1 root root 239, 3 Aug  7 22:14 /dev/hidraw3
+crw------- 1 root root 239, 4 Aug  7 22:14 /dev/hidraw4
+crw------- 1 root root 239, 5 Aug  7 22:14 /dev/hidraw5
+crw------- 1 root root 239, 6 Aug  7 22:14 /dev/hidraw6
+crw------- 1 root root 239, 7 Aug  7 22:14 /dev/hidraw7
+crw------- 1 root root 239, 8 Aug  7 22:14 /dev/hidraw8
+
+=== DMESG LABJACK ENTRIES ===
+

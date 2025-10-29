@@ -1,0 +1,40 @@
+=== SYSTEM INFO ===
+Date: Fri Aug  8 08:08:13 CEST 2025
+Hostname: E-5CG1462RZ6
+Kernel: Linux E-5CG1462RZ6 6.6.87.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+Distribution: Description:	Ubuntu 24.04.2 LTS
+USB Utils Version: Not installed
+
+=== USB DEVICES ===
+lsusb not available
+
+=== LABJACK U12 USB DETAILS ===
+LabJack U12 not found or lsusb not available
+
+=== USB DEVICE TREE ===
+
+=== HID DEVICES ===
+No HID devices found
+
+=== DMESG LABJACK ENTRIES ===
+[    0.000144] MTRR map: 5 entries (4 fixed + 1 variable; max 20), built from 8 variable MTRRs
+[    0.000147] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+[    0.000481] ACPI: XSDT 0x0000000000100000 000044 (v01 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000489] ACPI: FACP 0x0000000000101000 000114 (v06 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000497] ACPI: DSDT 0x00000000001011B8 01E191 (v02 MSFTVM DSDT01   00000001 MSFT 05000000)
+[    0.000502] ACPI: FACS 0x0000000000101114 000040
+[    0.000507] ACPI: OEM0 0x0000000000101154 000064 (v01 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000512] ACPI: SRAT 0x000000000011F349 000330 (v02 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000517] ACPI: APIC 0x000000000011F679 000088 (v04 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000863]   DMA32    [mem 0x0000000000001000-0x00000000ffffffff]
+[    0.000866]   Normal   [mem 0x0000000100000000-0x00000007fdffffff]
+[    0.000875]   node   0: [mem 0x0000000000001000-0x000000000009ffff]
+[    0.000879]   node   0: [mem 0x0000000100000000-0x00000007fdffffff]
+[    0.000883] Initmem setup node 0 [mem 0x0000000000001000-0x00000007fdffffff]
+[    0.161869] ... event mask:             0001000f000000ff
+[    2.521830] pci_bus 56b9:00: root bus resource [mem 0xc00000000-0xe00001fff window]
+[    2.527431] pci 56b9:00:00.0: reg 0x18: [mem 0xe00001000-0xe00001fff 64bit]
+[    2.535458] pci 56b9:00:00.0: BAR 2: assigned [mem 0xe00001000-0xe00001fff 64bit]
+[ 7506.000163] WSL (2 - init-systemd(Ubuntu-24.04)) WARNING: /etc/resolv.conf updating disabled in /etc/wsl.conf
+[10001.505465] WSL (2 - init-systemd(Ubuntu-24.04)) WARNING: /etc/resolv.conf updating disabled in /etc/wsl.conf
+
